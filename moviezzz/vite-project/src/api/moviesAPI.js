@@ -13,9 +13,11 @@ export async function getMoviesByFilters(name, year, genres) {
     name && params.set('name', name);
     year && params.set('year', year);
 
-    genres && (Array.isArray(genres) ?
-        genres.forEach(genre => params.append('genre', genre)) :
-        params.set('genre', genres));
+    if (genres) {
+        (Array.isArray(genres) ?
+            genres.forEach(genre => params.append('genre', genre)) :
+            params.set('genre', genres))
+    };
 
     return await fetchAction(`${API_URL}/search?${params}`);
 }
