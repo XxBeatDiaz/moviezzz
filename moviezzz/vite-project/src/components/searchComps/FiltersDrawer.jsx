@@ -17,14 +17,9 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 import { selectLastSearch } from "../../redux/slices/search";
 import { selectGenres } from "../../redux/slices/genres";
+import { getYearsList } from "../../utils/searchUtils";
 
-const YEARS = 1900;
-
-export default function FiltersDrawer({
-  onClickApply,
-  onClickReset,
-  currentYear,
-}) {
+export default function FiltersDrawer({ onClickApply, onClickReset }) {
   const [open, setOpen] = useState(false);
   const [applyMark, setApplyMark] = useState(false);
   const [selectedYear, setSelectedYear] = useState("");
@@ -38,39 +33,37 @@ export default function FiltersDrawer({
     setSelectedGenre(lastSearch.genre || "");
   }, [lastSearch]);
 
-  const years = getYearsList(currentYear);
+  const years = getYearsList();
 
-  function handleOpenDrawer() {
-    setOpen(true);
-  }
+  const handleOpenDrawer = () => setOpen(true);
 
-  function handleCloseDrawer() {
-    setOpen(false);
-  }
+  const handleCloseDrawer = () => setOpen(false);
 
-  function handleApplyFilters() {
-    if (!selectedYear && !selectedGenre) return;
+  const handleApplyFilters = () => {
+    if (selectedYear || selectedGenre) {
+      handleCloseDrawer();
+      setApplyMark(true);
+      onClickApply(selectedYear, selectedGenre);
+    }
+  };
 
-    handleCloseDrawer();
-    setApplyMark(true);
-    onClickApply(selectedYear, selectedGenre);
-  }
-
-  function handleResetFilters() {
+  const handleResetFilters = () => {
     handleCloseDrawer();
     setApplyMark(false);
     setSelectedYear("");
     setSelectedGenre("");
     onClickReset();
-  }
+  };
 
-  function handleFilterYear(e) {
-    setSelectedYear(e.target.value);
-  }
+  const handleFilterYear = (event) => {
+    const { value } = event.target;
+    setSelectedYear(value);
+  };
 
-  function handleFilterGenre(e) {
-    setSelectedGenre(e.target.value);
-  }
+  const handleFilterGenre = (event) => {
+    const { value } = event.target;
+    setSelectedGenre(value);
+  };
 
   return (
     <>
@@ -78,9 +71,7 @@ export default function FiltersDrawer({
         overlap="circular"
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         badgeContent={
-          applyMark ? (
-            <CircleIcon sx={{ fontSize: 7, color: "#773535f0" }} />
-          ) : undefined
+          applyMark && <CircleIcon sx={{ fontSize: 7, color: "#773535f0" }} />
         }
       >
         <FilterListIcon
@@ -139,9 +130,9 @@ export default function FiltersDrawer({
                   select
                   onChange={handleFilterGenre}
                 >
-                  {genres.map((g) => (
-                    <MenuItem key={g.id} value={g.id}>
-                      {g.name}
+                  {genres.map((genre) => (
+                    <MenuItem key={genre.id} value={genre.id}>
+                      {genre.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -153,9 +144,9 @@ export default function FiltersDrawer({
                   select
                   onChange={handleFilterYear}
                 >
-                  {years.map((y) => (
-                    <MenuItem key={y} value={y}>
-                      {y}
+                  {years.map((year) => (
+                    <MenuItem key={year} value={year}>
+                      {year}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -188,12 +179,4 @@ export default function FiltersDrawer({
       )}
     </>
   );
-}
-
-function getYearsList(currentYear) {
-  const years = Array.from(
-    { length: currentYear - YEARS + 1 },
-    (_, year) => 1900 + year
-  ).reverse();
-  return years;
 }

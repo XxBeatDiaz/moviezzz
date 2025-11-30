@@ -1,63 +1,63 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
-import { deleteFavoriteMovie, fetchUser, putFavoriteMovie } from '../thunks/userThunks';
-import { statusOptions } from '../../globals.js';
+import { fetchUser, removeUserFavoriteMovie, addUserFavoriteMovie } from '../thunks/userThunks';
+import { STATUS_OPTIONS } from '../../globals.js';
 
 const userSlice = createSlice({
     name: 'user',
     initialState: {
         user: null,
-        status: statusOptions.idle,
+        status: STATUS_OPTIONS.IDLE,
         error: null,
 
-        addFavStatus: statusOptions.idle,
-        removeFavStatus: statusOptions.idle,
+        addFavStatus: STATUS_OPTIONS.IDLE,
+        removeFavStatus: STATUS_OPTIONS.IDLE,
     },
     reducers: {
         logOut: (state) => {
             state.user = null;
-            state.status = statusOptions.idle;
+            state.status = STATUS_OPTIONS.IDLE;
             state.error = null;
 
-            state.addFavStatus = statusOptions.idle;
-            state.removeFavStatus = statusOptions.idle;
+            state.addFavStatus = STATUS_OPTIONS.IDLE;
+            state.removeFavStatus = STATUS_OPTIONS.IDLE;
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchUser.pending, (state) => {
-                state.status = statusOptions.loading;
+                state.status = STATUS_OPTIONS.LOADING;
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
-                state.status = statusOptions.succeeded;
+                state.status = STATUS_OPTIONS.SUCCEEDED;
                 state.user = action.payload;
             })
             .addCase(fetchUser.rejected, (state, action) => {
-                state.status = statusOptions.failed;
+                state.status = STATUS_OPTIONS.FAILED;
                 state.error = action.error.message;
             })
 
-            .addCase(putFavoriteMovie.pending, (state) => {
-                state.addFavStatus = statusOptions.loading;
+            .addCase(addUserFavoriteMovie.pending, (state) => {
+                state.addFavStatus = STATUS_OPTIONS.LOADING;
             })
-            .addCase(putFavoriteMovie.fulfilled, (state, action) => {
-                state.addFavStatus = statusOptions.succeeded;
+            .addCase(addUserFavoriteMovie.fulfilled, (state, action) => {
+                state.addFavStatus = STATUS_OPTIONS.SUCCEEDED;
                 state.user.moviesIds = action.payload;
             })
-            .addCase(putFavoriteMovie.rejected, (state, action) => {
-                state.addFavStatus = statusOptions.failed;
+            .addCase(addUserFavoriteMovie.rejected, (state, action) => {
+                state.addFavStatus = STATUS_OPTIONS.FAILED;
                 state.error = action.error.message;
             })
 
-            .addCase(deleteFavoriteMovie.pending, (state) => {
-                state.removeFavStatus = statusOptions.loading;
+            .addCase(removeUserFavoriteMovie.pending, (state) => {
+                state.removeFavStatus = STATUS_OPTIONS.LOADING;
             })
-            .addCase(deleteFavoriteMovie.fulfilled, (state, action) => {
-                state.removeFavStatus = statusOptions.succeeded;
+            .addCase(removeUserFavoriteMovie.fulfilled, (state, action) => {
+                state.removeFavStatus = STATUS_OPTIONS.SUCCEEDED;
                 state.user.moviesIds = action.payload;
             })
-            .addCase(deleteFavoriteMovie.rejected, (state, action) => {
-                state.removeFavStatus = statusOptions.failed;
+            .addCase(removeUserFavoriteMovie.rejected, (state, action) => {
+                state.removeFavStatus = STATUS_OPTIONS.FAILED;
                 state.error = action.error.message;
             })
     }

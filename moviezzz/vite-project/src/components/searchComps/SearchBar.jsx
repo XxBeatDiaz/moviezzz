@@ -13,15 +13,16 @@ export default function SearchBar({
 }) {
   const [query, setQuery] = useState("");
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !liveSearch) {
+  const handleKeyDown = (event) => {
+    const { key } = event;
+    if (key === "Enter" && !liveSearch) {
       onChange(query);
       setQuery("");
     }
   };
 
   const handleChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setQuery(value);
 
     if (liveSearch) {
@@ -29,17 +30,17 @@ export default function SearchBar({
     }
   };
 
-  function handleClearText() {
+  const handleClearText = () => {
     setQuery("");
     if (liveSearch) onChange("");
-  }
+  };
 
-  function handleSearchClick() {
+  const handleSearchClick = () => {
     if (!liveSearch) {
       onChange(query);
       setQuery("");
     }
-  }
+  };
 
   return (
     <Stack
@@ -75,7 +76,9 @@ export default function SearchBar({
           },
         }}
       />
-      {!liveSearch && <SearchBtn isActive={query} onClick={handleSearchClick} />}
+      {!liveSearch && (
+        <SearchBtn isActive={query} onClick={handleSearchClick} />
+      )}
     </Stack>
   );
 }

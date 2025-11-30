@@ -1,11 +1,11 @@
 import { createSlice, createEntityAdapter, createSelector, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit';
 
 import { fetchMovies, fetchMoviesByFilters, fetchOneMovie, fetchManyMovies } from '../thunks/moviesThunks.js';
-import { statusOptions } from '../../globals.js';
+import { STATUS_OPTIONS } from '../../globals.js';
 
 const moviesAdapter = createEntityAdapter();
 const initialState = moviesAdapter.getInitialState({
-    status: statusOptions.idle,
+    status: STATUS_OPTIONS.IDLE,
     error: null,
 });
 
@@ -18,7 +18,7 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isPending(fetchMovies, fetchOneMovie, fetchManyMovies, fetchMoviesByFilters),
             (state) => {
-                state.status = statusOptions.loading;
+                state.status = STATUS_OPTIONS.LOADING;
                 state.error = null;
             }
         );
@@ -26,7 +26,7 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isFulfilled(fetchOneMovie),
             (state, action) => {
-                state.status = statusOptions.succeeded;
+                state.status = STATUS_OPTIONS.SUCCEEDED;
                 moviesAdapter.upsertOne(state, action.payload);
             }
         )
@@ -34,7 +34,7 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isFulfilled(fetchMovies, fetchManyMovies, fetchMoviesByFilters),
             (state, action) => {
-                state.status = statusOptions.succeeded;
+                state.status = STATUS_OPTIONS.SUCCEEDED;
                 moviesAdapter.upsertMany(state, action.payload)
             }
         );
@@ -42,19 +42,17 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isRejected(fetchMovies, fetchOneMovie, fetchManyMovies, fetchMoviesByFilters),
             (state, action) => {
-                state.status = statusOptions.failed;
+                state.status = STATUS_OPTIONS.FAILED;
                 state.error = action.error.message;
             }
         );
-
-
     }
 });
 
 export const moviesSelectors = moviesAdapter.getSelectors(state => state.movies);
 
-export const selectMoviesStatus = (state) => state.genres.status;
-export const selectMoviesError = (state) => state.genres.error;
+export const selectMoviesStatus = (state) => state.movies.status;
+export const selectMoviesError = (state) => state.movies.error;
 
 export const selectManyByIds = (ids) =>
     createSelector(

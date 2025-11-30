@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { statusOptions } from "../../globals.js";
+import { STATUS_OPTIONS } from "../../globals.js";
 
 const alertSlice = createSlice({
   name: "alert",
-  initialState: { message: null, type: null, status: statusOptions.idle },
+  initialState: { message: null, type: null, status: STATUS_OPTIONS.IDLE },
   reducers: {
     showAlert: (state, action) => {
       state.message = action.payload.message;

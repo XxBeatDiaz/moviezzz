@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 
-import AddToFavBtn from "./AddToFavBtn";
-
+import AddToFavoritesBtn from "./addToFavoritesBtn";
 import { showAlert } from "../../redux/slices/alert";
 
 import {
@@ -14,27 +13,27 @@ import {
 } from "../../redux/slices/user";
 
 import {
-  putFavoriteMovie,
-  deleteFavoriteMovie,
+  addUserFavoriteMovie,
+  removeUserFavoriteMovie,
 } from "../../redux/thunks/userThunks";
 
-export default function MovieCard({ movieId, title, poster_path, year }) {
+export default function MovieCard({ movieId, title, posterPath, year }) {
   const dispatch = useDispatch();
 
   const userStatus = useSelector(selectUserStatus);
   const user = useSelector(selectUser);
 
   const userId = user?.id;
-  const moviesIds = useSelector(selectMoviesIdsFromUser);
+  const favoriteMoviesIds = useSelector(selectMoviesIdsFromUser);
 
-  const isFavorite = moviesIds.includes(Number(movieId));
+  const isFavorite = favoriteMoviesIds.includes(Number(movieId));
 
-  async function handleAddFavorite(event) {
+  async function handleUserAddFavorite(event) {
     event.preventDefault();
     event.stopPropagation();
 
     try {
-      await dispatch(putFavoriteMovie({ userId, movieId })).unwrap();
+      await dispatch(addUserFavoriteMovie({ userId, movieId })).unwrap();
       dispatch(
         showAlert({ type: "success", message: "Movie added successfully" })
       );
@@ -48,12 +47,12 @@ export default function MovieCard({ movieId, title, poster_path, year }) {
     }
   }
 
-  async function handleRemoveFavorite(event) {
+  async function handleUserRemoveFavorite(event) {
     event.preventDefault();
     event.stopPropagation();
 
     try {
-      await dispatch(deleteFavoriteMovie({ userId, movieId })).unwrap();
+      await dispatch(removeUserFavoriteMovie({ userId, movieId })).unwrap();
       dispatch(
         showAlert({ type: "success", message: "Movie removed successfully" })
       );
@@ -88,7 +87,7 @@ export default function MovieCard({ movieId, title, poster_path, year }) {
           <CardMedia
             sx={{ minHeight: 270, maxHeight: 270 }}
             component="img"
-            image={poster_path}
+            image={posterPath}
             alt={title}
           />
 
@@ -123,10 +122,10 @@ export default function MovieCard({ movieId, title, poster_path, year }) {
               justifyContent={"space-between"}
             >
               {userStatus === "succeeded" ? (
-                <AddToFavBtn
+                <AddToFavoritesBtn
                   initialFilled={isFavorite}
-                  onAddClick={handleAddFavorite}
-                  onRemoveClick={handleRemoveFavorite}
+                  onAddClick={handleUserAddFavorite}
+                  onRemoveClick={handleUserRemoveFavorite}
                 />
               ) : null}
 

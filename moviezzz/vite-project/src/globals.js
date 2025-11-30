@@ -1,21 +1,26 @@
-export const logo = "/Logo8.png";
+export const LOGO = "/Logo8.png";
 
-export const links = [
+export const LINKS = [
   { id: 1, label: "Home", url: "/" },
   { id: 2, label: "Movies", url: "/movies" },
   { id: 3, label: "My favorites", url: "/myFavorites" },
 ];
 
-export const endPoints = {
-  usersUrl: 'http://localhost:3000/users',
-  genresUrl: 'http://localhost:3000/genres',
-  loginUrl: 'http://localhost:3000/users/login?',
-  moviesUrl: 'http://localhost:3000/movies'
-}
+export const END_POINTS = {
+  USERS_URL: 'http://localhost:3000/users',
+  GENRES_URL: 'http://localhost:3000/genres',
+  LOGIN_URL: 'http://localhost:3000/users/login?',
+  MOVIES_URL: 'http://localhost:3000/movies'
+};
 
-export const statusOptions = {
-  idle: 'idle',
-  loading: 'loading',
-  succeeded: 'succeeded',
-  failed: 'failed'
-}
+export const STATUS_OPTIONS = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  SUCCEEDED: 'succeeded',
+  FAILED: 'failed'
+};
+
+export const YEAR_OPTIONS = {
+  START_YEAR: 1900,
+  CURRENT_YEAR: new Date().getFullYear(),
+};

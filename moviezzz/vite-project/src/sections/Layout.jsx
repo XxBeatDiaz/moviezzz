@@ -7,7 +7,7 @@ import LoginDialog from "../components/userComps/LoginDialog";
 import LogOut from "../components/userComps/LogOut";
 
 import { selectUser } from "../redux/slices/user";
-import { logo, links } from "../globals";
+import { LOGO, LINKS } from "../globals";
 
 export default function Layout({ children }) {
   const user = useSelector(selectUser);
@@ -25,8 +25,8 @@ export default function Layout({ children }) {
   return (
     <>
       <TopNav
-        logo={logo}
-        links={links}
+        logo={LOGO}
+        links={LINKS}
         avatar={avatar}
         loginSection={loginSection}
       />

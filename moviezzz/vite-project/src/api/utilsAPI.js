@@ -4,7 +4,7 @@ export async function fetchAction(API_URL, method = 'GET', body = null) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: body ? JSON.stringify(body) : null,
+        body: body && JSON.stringify(body),
     });
 
     return response.json();

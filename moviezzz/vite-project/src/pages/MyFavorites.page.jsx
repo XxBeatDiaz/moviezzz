@@ -9,11 +9,11 @@ import {
 } from "../redux/slices/user.js";
 import { selectManyByIds } from "../redux/slices/movies";
 
-import ListMovieCards from "../components/moviesComps/ListMovieCards.jsx";
+import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 import LoginDialog from "../components/userComps/LoginDialog.jsx";
 import SearchBar from "../components/searchComps/SearchBar.jsx";
 
-import { filterItems } from "../api/utils.js";
+import { filterItems } from "../utils/searchUtils.js";
 
 export default function MyFavorites() {
   const userStatus = useSelector(selectUserStatus);
@@ -67,7 +67,7 @@ export default function MyFavorites() {
         />
       </Box>
 
-      <ListMovieCards movies={filteredMovies} />
+      <MovieCardsList movies={filteredMovies} />
 
       <Box>
         {userStatus === "succeeded" || (

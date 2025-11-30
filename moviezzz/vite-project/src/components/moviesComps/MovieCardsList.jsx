@@ -1,8 +1,17 @@
-import { Grid, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+
+import { Grid, Typography, CircularProgress } from "@mui/material";
 
 import MovieCard from "./MovieCard.jsx";
 
-export default function ListMovieCards({ movies }) {
+export default function MovieCardsList({ movies }) {
+  const [showNoResults, setShowNoResults] = useState(false);
+
+  useEffect(() => {
+      const timer = setTimeout(() => setShowNoResults(true), 2000);
+      return () => clearTimeout(timer);
+  }, [movies]);
+
   return (
     <Grid
       container
@@ -17,11 +26,13 @@ export default function ListMovieCards({ movies }) {
             <MovieCard
               movieId={movie.id}
               title={movie.title}
-              poster_path={movie.poster_path}
+              posterPath={movie.poster_path}
               year={movie.year}
             />
           </Grid>
         ))
+      ) : !showNoResults ? (
+        <CircularProgress sx={{ color: "green" }} />
       ) : (
         <Typography color="green">No results</Typography>
       )}

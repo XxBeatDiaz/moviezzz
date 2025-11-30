@@ -1,7 +1,7 @@
 import { fetchAction } from './utilsAPI.js';
-import { endPoints } from '../globals.js';
+import { END_POINTS } from '../globals.js';
 
-const API_URL = endPoints.loginUrl;
+const API_URL = END_POINTS.LOGIN_URL;
 
 export async function login(username, password) {
     const params = new URLSearchParams();

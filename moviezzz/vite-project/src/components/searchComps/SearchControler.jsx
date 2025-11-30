@@ -13,34 +13,38 @@ export default function SearchControler() {
 
   const lastSearch = useSelector(selectLastSearch);
 
-  function handleAllFilters(updatedFilters) {
+  const handleAllFilters = (updatedFilters) => {
     dispatch(setLastSearch(updatedFilters));
     dispatch(fetchMoviesByFilters(updatedFilters));
     navigate(`/movies`);
-  }
+  };
 
-  function handleSearchBar(query) {
-    if (query.trim() === "") return;
-    handleAllFilters({ ...lastSearch, name: query });
-  }
+  const handleSearchBar = (query) => {
+    query.trim() !== "" && handleAllFilters({ ...lastSearch, name: query });
+  };
 
-  function handleFiltersDrawer(year, genre) {
-    if (!year && !genre) return;
-    handleAllFilters({ ...lastSearch, name: '', year: year, genre: genre });
-  }
+  const handleFiltersDrawer = (year, genre) => {
+    if (year || genre) {
+      handleAllFilters({
+        ...lastSearch,
+        name: "",
+        year: year,
+        genre: genre,
+      });
+    }
+  };
 
-  function handleResetFilters() {
-    const reset = { name: "", year: "", genre: "" };
-    handleAllFilters(reset);
-    return reset;
-  }
+  const handleResetFilters = () => {
+    const initialFilters = { name: "", year: "", genre: "" };
+    handleAllFilters(initialFilters);
+    return initialFilters;
+  };
 
   return (
     <>
       <FiltersDrawer
         onClickApply={handleFiltersDrawer}
         onClickReset={handleResetFilters}
-        currentYear={2025}
       />
       <SearchBar
         id={"searchFetch"}

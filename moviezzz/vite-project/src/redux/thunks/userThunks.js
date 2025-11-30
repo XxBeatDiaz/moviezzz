@@ -11,16 +11,16 @@ export const fetchUser = createAsyncThunk(
     }
 );
 
-export const putFavoriteMovie = createAsyncThunk(
-    "users/putFavoriteMovie",
-    async ({userId, movieId}) => {
+export const addUserFavoriteMovie = createAsyncThunk(
+    "users/addUserFavoriteMovie",
+    async ({ userId, movieId }) => {
         const respons = await addFavoriteMovie(userId, movieId)
         return respons;
     }
 );
-export const deleteFavoriteMovie = createAsyncThunk(
-    "users/deleteFavoriteMovie",
-    async ({userId, movieId}) => {
+export const removeUserFavoriteMovie = createAsyncThunk(
+    "users/removeUserFavoriteMovie",
+    async ({ userId, movieId }) => {
         const respons = await removeFavoriteMovie(userId, movieId)
         return respons;
     }

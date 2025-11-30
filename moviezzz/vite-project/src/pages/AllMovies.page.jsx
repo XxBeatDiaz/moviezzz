@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
 import { useSearchMovies } from "../hooks/useMovie.js";
-import ListMovieCards from "../components/moviesComps/ListMovieCards.jsx";
+import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 
 export default function AllMoviesPage() {
   const {
@@ -9,10 +9,6 @@ export default function AllMoviesPage() {
     status: moviesStatus,
     error: moviesError,
   } = useSearchMovies();
-
-  if (moviesStatus === "loading") {
-    return <div>Loading...</div>;
-  }
 
   if (moviesStatus === "failed") {
     return <div>Error: {moviesError}</div>;
@@ -27,7 +23,7 @@ export default function AllMoviesPage() {
         backgroundColor: "#313b3fff",
       }}
     >
-      <ListMovieCards movies={moviesByIds} />
+      <MovieCardsList movies={moviesByIds} />
     </Box>
   );
 }

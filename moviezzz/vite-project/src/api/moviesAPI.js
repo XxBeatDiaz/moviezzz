@@ -1,7 +1,7 @@
 import { fetchAction } from './utilsAPI.js';
-import { endPoints } from '../globals.js';
+import { END_POINTS } from '../globals.js';
 
-const API_URL = endPoints.moviesUrl;
+const API_URL = END_POINTS.MOVIES_URL;
 
 export async function getMovies() {
     return await fetchAction(`${API_URL}`);
@@ -22,8 +22,8 @@ export async function getMoviesByFilters(name, year, genres) {
     return await fetchAction(`${API_URL}/search?${params}`);
 }
 
-export async function getMovieById(id) {
-    return await fetchAction(`${API_URL}/${id}`);
+export async function getMovieById(movieId) {
+    return await fetchAction(`${API_URL}/${movieId}`);
 }
 
 export async function getMoviesByIds(moviesIds) {
@@ -33,15 +33,3 @@ export async function getMoviesByIds(moviesIds) {
 
     return await fetchAction(`${API_URL}/many?${params}`);
 }
-
-// export async function createMovie(movieData) {
-//     return await fetchAction(`${API_URL}`, 'POST', movieData);
-// }
-
-// export async function updateMovie(id, movieData) {
-//     return await fetchAction(`${API_URL}/${id}`, 'PUT', movieData);
-// }
-
-// export async function deleteMovie(id) {
-//     return await fetchAction(`${API_URL}/${id}`, 'DELETE');
-// }

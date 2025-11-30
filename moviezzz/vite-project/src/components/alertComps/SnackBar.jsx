@@ -1,5 +1,4 @@
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
+import { Snackbar, Alert } from "@mui/material";
 
 export default function CustomSnackbar({ type = "success", message, onClose }) {
   return (
