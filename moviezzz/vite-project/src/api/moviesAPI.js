@@ -14,7 +14,7 @@ export async function getMoviesByFilters(name = '', year = '', genres = '') {
     if (year) params.append('year', year);
     if (genres) {
         if (Array.isArray(genres)) {
-            genres.forEach(g => params.append('genre', g));
+            genres.forEach(genre => params.append('genre', genre));
         } else {
             params.append('genre', genres);
         }

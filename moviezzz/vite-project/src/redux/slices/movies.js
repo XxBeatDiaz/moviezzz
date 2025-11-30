@@ -1,10 +1,11 @@
 import { createSlice, createEntityAdapter, createSelector, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit';
 
 import { fetchMovies, fetchMoviesByFilters, fetchOneMovie, fetchManyMovies } from '../thunks/moviesThunks.js';
+import { statusOptions } from '../../globals.js';
 
 const moviesAdapter = createEntityAdapter();
 const initialState = moviesAdapter.getInitialState({
-    status: 'idle',
+    status: statusOptions.idle,
     error: null,
 });
 
@@ -17,7 +18,7 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isPending(fetchMovies, fetchOneMovie, fetchManyMovies, fetchMoviesByFilters),
             (state) => {
-                state.status = 'loading';
+                state.status = statusOptions.loading;
                 state.error = null;
             }
         );
@@ -25,7 +26,7 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isFulfilled(fetchOneMovie),
             (state, action) => {
-                state.status = "succeeded";
+                state.status = statusOptions.succeeded;
                 moviesAdapter.upsertOne(state, action.payload);
             }
         )
@@ -33,7 +34,7 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isFulfilled(fetchMovies, fetchManyMovies, fetchMoviesByFilters),
             (state, action) => {
-                state.status = 'succeeded';
+                state.status = statusOptions.succeeded;
                 moviesAdapter.upsertMany(state, action.payload)
             }
         );
@@ -41,7 +42,7 @@ const moviesSlice = createSlice({
         builder.addMatcher(
             isRejected(fetchMovies, fetchOneMovie, fetchManyMovies, fetchMoviesByFilters),
             (state, action) => {
-                state.status = 'failed';
+                state.status = statusOptions.failed;
                 state.error = action.error.message;
             }
         );

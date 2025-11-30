@@ -12,3 +12,10 @@ export const endPoints = {
   loginUrl: 'http://localhost:3000/users/login?',
   moviesUrl: 'http://localhost:3000/movies'
 }
+
+export const statusOptions = {
+  idle: 'idle',
+  loading: 'loading',
+  succeeded: 'succeeded',
+  failed: 'failed'
+}

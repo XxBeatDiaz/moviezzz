@@ -1,11 +1,10 @@
 import { useParams } from "react-router";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Box, Typography, Divider } from "@mui/material";
 
 import { moviesSelectors } from "../redux/slices/movies";
 import { VideoPlayer } from "../components/moviesComps/VideoPlayer";
-
 
 export default function MoviePage() {
   const { id } = useParams();
@@ -49,9 +48,9 @@ export default function MoviePage() {
       >
         <br />
         <VideoPlayer
-          src="/matrixTrailer.mp4"
+          src="/video/matrixTrailer.mp4"
           isPlaying={true}
-          thumb={movie?.poster_path}
+          thumb={movie.poster_path}
         />
 
         <Divider
@@ -73,7 +72,7 @@ export default function MoviePage() {
         >
           <img
             src={movie.poster_path}
-            alt="/matrix"
+            alt={movie.title}
             style={{
               borderRadius: "20px",
               maxHeight: "350px",
@@ -81,12 +80,22 @@ export default function MoviePage() {
             }}
           />
           <Box>
-            <h1 style={{ margin: "20px 0", paddingBottom: "20px", borderBottom: "1px solid gray" }}>
+            <h1
+              style={{
+                margin: "20px 0",
+                paddingBottom: "20px",
+                borderBottom: "1px solid gray",
+              }}
+            >
               {movie.title}
             </h1>
             <Typography sx={{}}>{movie.synopsis}</Typography>
+            <br />
+            {movie.year}
+            <br />
+            <br />
+            {movie.director}
           </Box>
-            
         </Box>
       </Box>
     </Box>

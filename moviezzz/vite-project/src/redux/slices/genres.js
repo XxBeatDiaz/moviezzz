@@ -1,10 +1,11 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 
 import { fetchGenres } from "../thunks/genresThunks"
+import { statusOptions } from "../../globals.js";
 
 const genresAdapter = createEntityAdapter();
 const initialState = genresAdapter.getInitialState({
-    status: 'idle',
+    status: statusOptions.idle,
     error: null,
 });
 
@@ -17,14 +18,14 @@ const genresSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchGenres.pending, (state) => {
-                state.status = 'loading';
+                state.status = statusOptions.loading;
             })
             .addCase(fetchGenres.fulfilled, (state, action) => {
-                state.status = 'succeeded';
+                state.status = statusOptions.succeeded;
                 state.genres = action.payload;
             })
             .addCase(fetchGenres.rejected, (state, action) => {
-                state.status = 'failed';
+                state.status = statusOptions.failed;
                 state.error = action.error.message;
             })
     }

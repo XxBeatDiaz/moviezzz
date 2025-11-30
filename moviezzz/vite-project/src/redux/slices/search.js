@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchMoviesByFilters } from '../thunks/moviesThunks.js';
+import { statusOptions } from '../../globals.js';
 
 const searchSlice = createSlice({
   name: 'search',
   initialState: {
     ids: [],
     lastSearch: { name: '', year: '', genre: '' },
-    status: 'idle',
+    status: statusOptions.idle,
     error: null,
   },
 
@@ -15,7 +16,7 @@ const searchSlice = createSlice({
     removeAll: (state) => {
       state.ids = [];
       state.lastSearch = { name: '', year: '', genre: '' };
-      state.status = 'idle';
+      state.status = statusOptions.idle;
       state.error = null;
     },
 
@@ -28,16 +29,16 @@ const searchSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchMoviesByFilters.pending, (state) => {
-        state.status = 'loading';
+        state.status = statusOptions.loading;
         state.error = null;
       })
       .addCase(fetchMoviesByFilters.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = statusOptions.succeeded;
         const ids = action.payload.map(movie => movie.id);
         state.ids = ids;
       })
       .addCase(fetchMoviesByFilters.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = statusOptions.failed;
         state.error = action.error.message;
       });
   },
