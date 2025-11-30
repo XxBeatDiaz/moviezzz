@@ -3,11 +3,11 @@ import { endPoints } from '../globals.js';
 
 const API_URL = endPoints.loginUrl;
 
-export async function login(username = '', password = '') {
+export async function login(username, password) {
     const params = new URLSearchParams();
 
-    if (username) params.append('username', username);
-    if (password) params.append('password', password);
+    username && params.set('username', username);
+    password && params.set('password', password);
 
-    return await fetchAction(`${API_URL}${params.toString()}`);
+    return await fetchAction(`${API_URL}${params}`);
 }

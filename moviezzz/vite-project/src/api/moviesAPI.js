@@ -7,20 +7,17 @@ export async function getMovies() {
     return await fetchAction(`${API_URL}`);
 }
 
-export async function getMoviesByFilters(name = '', year = '', genres = '') {
+export async function getMoviesByFilters(name, year, genres) {
     const params = new URLSearchParams();
 
-    if (name) params.append('name', name);
-    if (year) params.append('year', year);
-    if (genres) {
-        if (Array.isArray(genres)) {
-            genres.forEach(genre => params.append('genre', genre));
-        } else {
-            params.append('genre', genres);
-        }
-    }
+    name && params.set('name', name);
+    year && params.set('year', year);
 
-    return await fetchAction(`${API_URL}/search?${params.toString()}`);
+    genres && (Array.isArray(genres) ?
+        genres.forEach(genre => params.append('genre', genre)) :
+        params.set('genre', genres));
+
+    return await fetchAction(`${API_URL}/search?${params}`);
 }
 
 export async function getMovieById(id) {
@@ -30,9 +27,9 @@ export async function getMovieById(id) {
 export async function getMoviesByIds(moviesIds) {
     const params = new URLSearchParams();
 
-    moviesIds.forEach(id => params.append("moviesIds", id));
+    moviesIds && moviesIds.forEach(movieId => params.append("moviesIds", movieId));
 
-    return await fetchAction(`${API_URL}/many?${params.toString()}`);
+    return await fetchAction(`${API_URL}/many?${params}`);
 }
 
 // export async function createMovie(movieData) {
