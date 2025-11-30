@@ -19,19 +19,17 @@ function App() {
   }
 
   return (
-    <>
-      <Layout>
-        <ConfigRoutes />
-        {message && (
-          <CustomSnackbar
-            key={message}
-            type={type}
-            message={message}
-            onClose={handleClearAlert}
-          />
-        )}
-      </Layout>
-    </>
+    <Layout>
+      <ConfigRoutes />
+      {message && (
+        <CustomSnackbar
+          key={message}
+          type={type}
+          message={message}
+          onClose={handleClearAlert}
+        />
+      )}
+    </Layout>
   );
 }
 
