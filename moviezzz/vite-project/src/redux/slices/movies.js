@@ -54,10 +54,21 @@ export const moviesSelectors = moviesAdapter.getSelectors(state => state.movies)
 export const selectMoviesStatus = (state) => state.movies.status;
 export const selectMoviesError = (state) => state.movies.error;
 
-export const selectManyByIds = (ids) =>
+export const selectMovieById = (id) => (state) => moviesSelectors.selectById(state, id);
+
+export const selectManyByIds = (moviesIds) =>
     createSelector(
-        [(state) => state.movies.entities],
-        (entities) => ids.map(id => entities[id]).filter(Boolean)
+        [moviesSelectors.selectAll],
+        (movies) => movies.filter(movie => moviesIds.includes(movie.id))
+    );
+
+export const selectTheNewestMovies = (amount) =>
+    createSelector(
+        [moviesSelectors.selectAll],
+        (movies) => {
+            const sortedMovies = [...movies].sort((a, b) => new Date(b.year) - new Date(a.year));
+            return sortedMovies.slice(0, amount);
+        }
     );
 
 export default moviesSlice.reducer;

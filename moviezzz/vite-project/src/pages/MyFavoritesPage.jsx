@@ -7,7 +7,7 @@ import {
   selectMoviesIdsFromUser,
   selectUserStatus,
 } from "../redux/slices/user.js";
-import { selectManyByIds } from "../redux/slices/movies";
+import { selectManyByIds } from "../redux/slices/movies.js";
 
 import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 import LoginDialog from "../components/userComps/LoginDialog.jsx";

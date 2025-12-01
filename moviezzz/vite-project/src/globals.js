@@ -24,3 +24,7 @@ export const YEAR_OPTIONS = {
   START_YEAR: 1900,
   CURRENT_YEAR: new Date().getFullYear(),
 };
+
+export const MOVIE_TRAILER = "/video/matrixTrailer.mp4";
+
+export const HOME_PAGE_MOVIES_AMOUNT = 10;

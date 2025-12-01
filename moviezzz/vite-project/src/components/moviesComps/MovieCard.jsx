@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 
-import AddToFavoritesBtn from "./addToFavoritesBtn";
+import AddToFavoritesBtn from "./AddToFavoritesBtn";
 import { showAlert } from "../../redux/slices/alert";
 
 import {

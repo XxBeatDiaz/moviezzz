@@ -5,10 +5,10 @@ import { Grid, Typography, CircularProgress } from "@mui/material";
 import MovieCard from "./MovieCard.jsx";
 
 export default function MovieCardsList({ movies }) {
-  const [showNoResults, setShowNoResults] = useState(false);
+  const [showCircular, setShowCircular] = useState(true);
 
   useEffect(() => {
-      const timer = setTimeout(() => setShowNoResults(true), 2000);
+      const timer = setTimeout(() => setShowCircular(false), 2000);
       return () => clearTimeout(timer);
   }, [movies]);
 
@@ -31,7 +31,7 @@ export default function MovieCardsList({ movies }) {
             />
           </Grid>
         ))
-      ) : !showNoResults ? (
+      ) : showCircular ? (
         <CircularProgress sx={{ color: "green" }} />
       ) : (
         <Typography color="green">No results</Typography>

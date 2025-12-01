@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import { useSearchMovies } from "../hooks/useMovie.js";
 import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 
+import { STATUS_OPTIONS } from "../globals.js";
+
 export default function AllMoviesPage() {
   const {
     movies: moviesByIds,
@@ -10,7 +12,7 @@ export default function AllMoviesPage() {
     error: moviesError,
   } = useSearchMovies();
 
-  if (moviesStatus === "failed") {
+  if (moviesStatus === STATUS_OPTIONS.FAILED) {
     return <div>Error: {moviesError}</div>;
   }
 

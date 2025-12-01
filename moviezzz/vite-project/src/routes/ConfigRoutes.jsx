@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router";
 
-import HomePage from "../pages/Home.page";
-import AllMoviesPage from "../pages/AllMovies.page";
-import MoviePage from "../pages/Movie.page";
-import MyFavorites from "../pages/MyFavorites.page";
+import HomePage from "../pages/HomePage";
+import AllMoviesPage from "../pages/AllMoviesPage";
+import MoviePage from "../pages/MoviePage";
+import MyFavorites from "../pages/MyFavoritesPage";
 import NotFound from "../pages/NotFound";
 
 export default function ConfigRoutes() {
