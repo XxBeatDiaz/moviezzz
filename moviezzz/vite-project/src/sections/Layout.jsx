@@ -12,15 +12,9 @@ import { LOGO, LINKS } from "../globals";
 export default function Layout({ children }) {
   const user = useSelector(selectUser);
 
-  const avatar = null; //לממש בהמשך
+  const avatar = user ? user.avatar : null;
 
-  const isLogedin = !!user;
-  
-  let loginSection = <LoginDialog />;
-
-  if (isLogedin) {
-    loginSection = <LogOut/>;
-  }
+  const isLoggedIn = !!user;
 
   return (
     <>
@@ -28,7 +22,7 @@ export default function Layout({ children }) {
         logo={LOGO}
         links={LINKS}
         avatar={avatar}
-        loginSection={loginSection}
+        loginSection={isLoggedIn ? <LogOut /> : <LoginDialog />}
       />
       <Box sx={{ backgroundColor: "#222222ff" }}>{children}</Box>
     </>

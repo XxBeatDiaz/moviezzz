@@ -70,11 +70,7 @@ export const selectUserError = (state) => state.user.error;
 
 export const selectMoviesIdsFromUser = createSelector(
     [selectUser],
-    (user) => {
-        if (!user) return [];
-
-        return user.moviesIds;
-    }
+    (user) => !user ? [] : user.moviesIds
 );
 
 export const { logOut } = userSlice.actions;

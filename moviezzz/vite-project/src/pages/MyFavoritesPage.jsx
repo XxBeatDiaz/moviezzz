@@ -32,8 +32,9 @@ export default function MyFavorites() {
   }, [moviesByIds]);
 
   function handleSearch(query) {
-    const newFilteredMovies = filterItems(moviesByIds, query);
-    setFilteredMovies(newFilteredMovies);
+    const filteredMovies = filterItems(moviesByIds, query);
+    
+    setFilteredMovies(filteredMovies);
   }
 
   return (

@@ -8,10 +8,11 @@ import MovieCard from "./MovieCard";
 export default function HorizontalMovieCardsList({ title, movies, link }) {
   const [showCircular, setShowCircular] = useState(true);
 
+  
   useEffect(() => {
     const timer = setTimeout(() => setShowCircular(false), 2000);
     return () => clearTimeout(timer);
-  }, [movies]);
+  }, [movies.length]);
 
   return (
     <>

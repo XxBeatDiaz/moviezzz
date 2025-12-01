@@ -22,6 +22,7 @@ const searchSlice = createSlice({
 
     setLastSearch: (state, action) => {
       const newFilters = action.payload;
+
       state.lastSearch = { ...state.lastSearch, ...newFilters };
     }
   },
@@ -33,9 +34,10 @@ const searchSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMoviesByFilters.fulfilled, (state, action) => {
+        const moviesIds = action.payload.map(movie => movie.id);
+
         state.status = STATUS_OPTIONS.SUCCEEDED;
-        const ids = action.payload.map(movie => movie.id);
-        state.ids = ids;
+        state.ids = moviesIds;
       })
       .addCase(fetchMoviesByFilters.rejected, (state, action) => {
         state.status = STATUS_OPTIONS.FAILED;
@@ -52,4 +54,3 @@ export const selectLastSearch = (state) => state.search.lastSearch;
 
 export const { removeAll, setLastSearch } = searchSlice.actions;
 export default searchSlice.reducer;
-  

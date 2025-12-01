@@ -4,56 +4,35 @@ import { getMovieById, getMoviesByIds, getMovies, getMoviesByFilters } from "../
 
 export const fetchMovies = createAsyncThunk(
     "movies/fetchAll",
-    async () => {
-        const movies = await getMovies();
-        return movies;
-    }
+    getMovies
 );
 
 export const fetchOneMovie = createAsyncThunk(
     "movies/fetchOneMovie",
-    async ({ movieId }) => {
-        const movie = await getMovieById(movieId);
-        return movie;
-    }
+    getMovieById
 )
 
 export const fetchManyMovies = createAsyncThunk(
     "movies/fetchManyMovies",
-    async (moviesIds) => {
-        const movies = await getMoviesByIds(moviesIds);
-        return movies;
-    }
+    getMoviesByIds
 )
 
 export const fetchMoviesByFilters = createAsyncThunk(
     "movies/fetchByFilters",
-    async ({ name = '', year = '', genre = '' }) => {        
-        const movies = await getMoviesByFilters(name, year, genre);
-        return movies;
-    }
+    ({ name = '', year = '', genre = '' }) => getMoviesByFilters(name, year, genre)
 );
 
 export const fetchMoviesByName = createAsyncThunk(
     "movies/fetchByName",
-    async (name) => {
-        const movies = await getMoviesByFilters(name);
-        return movies;
-    }
+    (name) => getMoviesByFilters(name)
 );
 
 export const fetchMoviesByYear = createAsyncThunk(
     "movies/fetchByYear",
-    async (year) => {
-        const movies = await getMoviesByFilters("", year);
-        return movies;
-    }
+    (year) => getMoviesByFilters("", year)
 );
 
 export const fetchMoviesByGenres = createAsyncThunk(
     "movies/fetchByGenres",
-    async (genres) => {
-        const movies = await getMoviesByFilters("", "", genres);
-        return movies;
-    }
+    (genres) => getMoviesByFilters("", "", genres)
 );

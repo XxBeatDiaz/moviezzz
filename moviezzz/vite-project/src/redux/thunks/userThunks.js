@@ -5,23 +5,15 @@ import { addFavoriteMovie, removeFavoriteMovie } from "../../api/userAPI";
 
 export const fetchUser = createAsyncThunk(
     "login/fetchUser",
-    async ({ username, password }) => {
-        const response = await login(username, password);
-        return response;
-    }
+    ({ username, password }) => login(username, password)
 );
 
 export const addUserFavoriteMovie = createAsyncThunk(
     "users/addUserFavoriteMovie",
-    async ({ userId, movieId }) => {
-        const respons = await addFavoriteMovie(userId, movieId)
-        return respons;
-    }
+    ({ userId, movieId }) => addFavoriteMovie(userId, movieId)
 );
+
 export const removeUserFavoriteMovie = createAsyncThunk(
     "users/removeUserFavoriteMovie",
-    async ({ userId, movieId }) => {
-        const respons = await removeFavoriteMovie(userId, movieId)
-        return respons;
-    }
+    ({ userId, movieId }) => removeFavoriteMovie(userId, movieId)
 );
