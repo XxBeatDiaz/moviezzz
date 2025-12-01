@@ -14,7 +14,16 @@ export default function MoviePage() {
   const movie = useSelector(selectMovieById(id));
 
   return (
-    <Box>
+    <Box
+      sx={{
+        bgcolor: "#131212ff",
+        color: "#b1aeaeff",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <MovieScreenBlock
         movieId={movie?.id}
         moviePath={MOVIE_TRAILER}
