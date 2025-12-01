@@ -31,9 +31,9 @@ export default function MyFavorites() {
     setFilteredMovies(moviesByIds);
   }, [moviesByIds]);
 
-  function handleSearch(query) {
+  const handleSearch = (query) => {
     const filteredMovies = filterItems(moviesByIds, query);
-    
+
     setFilteredMovies(filteredMovies);
   }
 
