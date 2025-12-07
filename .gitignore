@@ -7,10 +7,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
+
+# Vite build output
 dist
 dist-ssr
 *.local
+
+# Local environment files
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +30,29 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Optional cache directories (מומלץ!)
+.cache
+.vite
+vite.config.ts.timestamp-*  # קבצים זמניים של Vite
+
+# Redux DevTools local storage backup (אם קיים)
+redux.json
+
+# TypeScript (אם בעתיד תוסיף)
+*.tsbuildinfo
+
+# Coverage (אם תוסיף Jest/Vitest)
+coverage
+
+# Storybook (אם תשתמש בעתיד)
+storybook-static
+
+# Cypress (אם תבדוק E2E)
+cypress/videos
+cypress/screenshots
