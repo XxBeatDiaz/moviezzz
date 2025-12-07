@@ -38,7 +38,7 @@ Desktop.ini
 
 # Optional cache directories (מומלץ!)
 .cache
-.vite
+.vite/
 vite.config.ts.timestamp-*  # קבצים זמניים של Vite
 
 # Redux DevTools local storage backup (אם קיים)
