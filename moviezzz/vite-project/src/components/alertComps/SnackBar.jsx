@@ -9,6 +9,7 @@ export default function CustomSnackbar({ type = "success", message, onClose }) {
         variant="filled"
         sx={{ width: "100%" }}
       >
+        
         {message}
       </Alert>
     </Snackbar>
