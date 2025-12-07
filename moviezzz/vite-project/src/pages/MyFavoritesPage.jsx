@@ -14,6 +14,7 @@ import LoginDialog from "../components/userComps/LoginDialog.jsx";
 import SearchBar from "../components/searchComps/SearchBar.jsx";
 
 import { filterItems } from "../utils/searchUtils.js";
+import { STATUS_OPTIONS } from "../globals.js";
 
 export default function MyFavorites() {
   const userStatus = useSelector(selectUserStatus);
@@ -35,7 +36,7 @@ export default function MyFavorites() {
     const filteredMovies = filterItems(moviesByIds, query);
 
     setFilteredMovies(filteredMovies);
-  }
+  };
 
   return (
     <Box
@@ -71,7 +72,7 @@ export default function MyFavorites() {
       <MovieCardsList movies={filteredMovies} />
 
       <Box>
-        {userStatus === "succeeded" || (
+        {userStatus === STATUS_OPTIONS.SUCCEEDED || (
           <>
             <Typography>To see your favorites, please login : </Typography>
             <LoginDialog />
