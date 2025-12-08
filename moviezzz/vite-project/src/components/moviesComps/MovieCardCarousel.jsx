@@ -5,12 +5,12 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 
 import MovieCard from "./MovieCard";
 
-export default function HorizontalMovieCardsList({ title, movies, link }) {
+export default function MovieCardCarousel({ title, movies, link }) {
   const [showCircular, setShowCircular] = useState(true);
 
-  
   useEffect(() => {
     const timer = setTimeout(() => setShowCircular(false), 2000);
+    
     return () => clearTimeout(timer);
   }, [movies.length]);
 

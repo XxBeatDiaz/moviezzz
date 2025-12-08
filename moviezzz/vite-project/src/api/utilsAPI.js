@@ -1,11 +1,15 @@
-export async function fetchAction(API_URL, method = 'GET', body = null) {
-    const response = await fetch(API_URL, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: body && JSON.stringify(body),
-    });
+export async function fetchAction(API_URL, method = 'GET', body) {
+    const options = {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        ...(method !== 'GET' && { body: JSON.stringify(body) })
+    };
 
-    return response.json();
+    const res = await fetch(API_URL, options);
+    
+    if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    return res.json();
 }

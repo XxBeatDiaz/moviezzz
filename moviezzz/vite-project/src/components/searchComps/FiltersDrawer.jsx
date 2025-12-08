@@ -55,13 +55,11 @@ export default function FiltersDrawer({ onClickApply, onClickReset }) {
     onClickReset();
   };
 
-  const handleFilterYear = (event) => {
-    const { value } = event.target;
+  const handleFilterYear = ({ target: { value } }) => {
     setSelectedYear(value);
   };
 
-  const handleFilterGenre = (event) => {
-    const { value } = event.target;
+  const handleFilterGenre = ({ target: { value } }) => {
     setSelectedGenre(value);
   };
 

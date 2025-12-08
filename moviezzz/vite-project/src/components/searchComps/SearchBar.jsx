@@ -13,16 +13,14 @@ export default function SearchBar({
 }) {
   const [query, setQuery] = useState("");
 
-  const handleKeyDown = (event) => {
-    const { key } = event;
+  const handleKeyDown = ({key}) => {
     if (key === "Enter" && !liveSearch) {
       onChange(query);
       setQuery("");
     }
   };
 
-  const handleChange = (event) => {
-    const { value } = event.target;
+  const handleChange = ({target: {value}}) => {
     setQuery(value);
 
     if (liveSearch) {

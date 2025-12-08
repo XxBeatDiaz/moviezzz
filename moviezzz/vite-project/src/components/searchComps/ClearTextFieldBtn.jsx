@@ -1,11 +1,9 @@
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function ClearTextFieldBtn({ isActive, onClick }) {
-  const handleClick = () => onClick();
-
+export default function ClearTextFieldBtn({ isActive, onClick = () => {} }) {
   return (
     <CloseIcon
-      onClick={isActive ? handleClick : undefined}
+      onClick={isActive && onClick}
       sx={{
         alignSelf: "center",
         cursor: isActive ? "pointer" : "",

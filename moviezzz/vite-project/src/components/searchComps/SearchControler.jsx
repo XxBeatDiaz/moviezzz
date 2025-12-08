@@ -36,6 +36,7 @@ export default function SearchControler() {
 
   const handleResetFilters = () => {
     const initialFilters = { name: "", year: "", genre: "" };
+
     handleAllFilters(initialFilters);
     return initialFilters;
   };

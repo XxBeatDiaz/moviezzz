@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { clearAlert } from "./redux/slices/alert.js";
+import { selectAlert, clearAlert } from "./redux/slices/alert.js";
 
 import ConfigRoutes from "./routes/configRoutes";
 import Layout from "./sections/Layout";
@@ -12,11 +12,11 @@ function App() {
 
   useOnStart();
 
-  const { type, message } = useSelector((state) => state.alert);
+  const { type, message } = useSelector(selectAlert);
 
-  function handleClearAlert() {
+  const handleClearAlert = () => {
     dispatch(clearAlert());
-  }
+  };
 
   return (
     <Layout>

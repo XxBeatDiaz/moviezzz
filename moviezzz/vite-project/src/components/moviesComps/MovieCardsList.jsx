@@ -8,8 +8,9 @@ export default function MovieCardsList({ movies }) {
   const [showCircular, setShowCircular] = useState(true);
 
   useEffect(() => {
-      const timer = setTimeout(() => setShowCircular(false), 2000);
-      return () => clearTimeout(timer);
+    const timer = setTimeout(() => setShowCircular(false), 2000);
+    
+    return () => clearTimeout(timer);
   }, [movies]);
 
   return (

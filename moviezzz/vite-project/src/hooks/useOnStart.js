@@ -7,6 +7,7 @@ import { selectMoviesIdsFromUser, selectUserStatus } from "../redux/slices/user"
 
 import { fetchManyMovies, fetchMovies } from "../redux/thunks/moviesThunks";
 import { fetchGenres } from "../redux/thunks/genresThunks";
+import { STATUS_OPTIONS } from "../globals";
 
 export default function useOnStart() {
     const dispatch = useDispatch();
@@ -17,19 +18,19 @@ export default function useOnStart() {
     const moviesIds = useSelector(selectMoviesIdsFromUser);
 
     useEffect(() => {
-        if (moviesStatus === "idle") {
+        if (moviesStatus === STATUS_OPTIONS.IDLE) {
             dispatch(fetchMovies());
         }
     }, [dispatch, moviesStatus]);
 
     useEffect(() => {
-        if (genresStatus === "idle") {
+        if (genresStatus === STATUS_OPTIONS.IDLE) {
             dispatch(fetchGenres());
         }
     }, [dispatch, genresStatus])
 
     useEffect(() => {
-        if (userStatus === "succeeded" && moviesIds.length > 0) {
+        if (userStatus === STATUS_OPTIONS.SUCCEEDED && moviesIds.length > 0) {
             dispatch(fetchManyMovies(moviesIds));
         }
     }, [dispatch, userStatus, moviesIds]);

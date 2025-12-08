@@ -16,15 +16,16 @@ import {
   addUserFavoriteMovie,
   removeUserFavoriteMovie,
 } from "../../redux/thunks/userThunks";
+import { STATUS_OPTIONS } from "../../globals";
 
 export default function MovieCard({ movieId, title, posterPath, year }) {
   const dispatch = useDispatch();
 
   const userStatus = useSelector(selectUserStatus);
   const user = useSelector(selectUser);
+  const favoriteMoviesIds = useSelector(selectMoviesIdsFromUser);
 
   const userId = user?.id;
-  const favoriteMoviesIds = useSelector(selectMoviesIdsFromUser);
 
   const isFavorite = favoriteMoviesIds.includes(Number(movieId));
 
@@ -121,7 +122,7 @@ export default function MovieCard({ movieId, title, posterPath, year }) {
               flexDirection={"row"}
               justifyContent={"space-between"}
             >
-              {userStatus === "succeeded" ? (
+              {userStatus === STATUS_OPTIONS.SUCCEEDED ? (
                 <AddToFavoritesBtn
                   initialFilled={isFavorite}
                   onAddClick={handleUserAddFavorite}

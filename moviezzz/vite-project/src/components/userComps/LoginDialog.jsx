@@ -15,7 +15,7 @@ import LoginForm from "./LoginForm";
 import { showAlert } from "../../redux/slices/alert";
 import { fetchUser } from "../../redux/thunks/userThunks";
 
-const LOGINDIALOGTEXT =
+const LOGIN_DIALOG_TEXT =
   "To subscribe to this website, please enter your username and password here.";
 
 export default function LoginDialog() {
@@ -66,7 +66,7 @@ export default function LoginDialog() {
 
         <DialogContent>
           <DialogContentText sx={{ marginLeft: "24px", marginTop: "16px" }}>
-            {LOGINDIALOGTEXT}
+            {LOGIN_DIALOG_TEXT}
           </DialogContentText>
 
           <LoginForm onSubmit={handleSubmit} formId={"subscription-form"} />

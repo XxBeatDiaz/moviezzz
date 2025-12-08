@@ -12,7 +12,7 @@ import { LOGO, LINKS } from "../globals";
 export default function Layout({ children }) {
   const user = useSelector(selectUser);
 
-  const avatar = user ? user.avatar : null;
+  const avatar = user ? "/avatar.jpg" : null;
 
   const isLoggedIn = !!user;
 

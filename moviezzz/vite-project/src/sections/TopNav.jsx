@@ -95,7 +95,7 @@ export default function TopNav({ logo, links, avatar, loginSection }) {
           ))}
         </Stack>
 
-        <SearchControler/>
+        <SearchControler />
 
         <Stack direction="row" alignItems="center" spacing={1.5}>
           <Avatar src={avatar} />

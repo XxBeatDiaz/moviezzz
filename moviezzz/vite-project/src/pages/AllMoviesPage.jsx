@@ -12,10 +12,6 @@ export default function AllMoviesPage() {
     error: moviesError,
   } = useSearchMovies();
 
-  if (moviesStatus === STATUS_OPTIONS.FAILED) {
-    return <div>Error: {moviesError}</div>;
-  }
-
   return (
     <Box
       sx={{
@@ -25,7 +21,11 @@ export default function AllMoviesPage() {
         backgroundColor: "#313b3fff",
       }}
     >
-      <MovieCardsList movies={moviesByIds} />
+      {moviesStatus === STATUS_OPTIONS.FAILED ? (
+        <div>Error: {moviesError}</div>
+      ) : (
+        <MovieCardsList movies={moviesByIds} />
+      )}
     </Box>
   );
 }

@@ -4,7 +4,7 @@ import { Box, CircularProgress } from "@mui/material";
 
 import { VideoPlayer } from "./VideoPlayer";
 
-export default function MovieScreenBlock({ movieId, moviePath, posterPath }) {
+export default function MovieScreenBox({ movieId, moviePath, posterPath }) {
   const [showCircular, setShowCircular] = useState(true);
 
   useEffect(() => {

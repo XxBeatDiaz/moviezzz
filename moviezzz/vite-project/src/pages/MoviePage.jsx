@@ -5,7 +5,7 @@ import { Box, Divider } from "@mui/material";
 
 import { selectMovieById } from "../redux/slices/movies";
 import MovieInfoCard from "../components/moviesComps/MovieInfoCard";
-import MovieScreenBlock from "../components/moviesComps/MovieScreenBlock";
+import MovieScreenBox from "../components/moviesComps/MovieScreenBox";
 import { MOVIE_TRAILER } from "../globals";
 
 export default function MoviePage() {
@@ -24,7 +24,7 @@ export default function MoviePage() {
         alignItems: "center",
       }}
     >
-      <MovieScreenBlock
+      <MovieScreenBox
         movieId={movie?.id}
         moviePath={MOVIE_TRAILER}
         posterPath={movie?.poster_path}
