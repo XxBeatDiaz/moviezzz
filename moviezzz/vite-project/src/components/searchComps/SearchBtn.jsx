@@ -4,7 +4,7 @@ export default function SearchBtn({ isActive, onClick = () => {} }) {
   return (
     <SearchIcon
       variant="outlined"
-      onClick={isActive && onClick}
+      onClick={isActive ? onClick : undefined}
       sx={{
         alignSelf: "center",
         cursor: isActive ? "pointer" : "",

@@ -13,7 +13,7 @@ import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 import LoginDialog from "../components/userComps/LoginDialog.jsx";
 import SearchBar from "../components/searchComps/SearchBar.jsx";
 
-import { filterItems } from "../utils/searchUtils.js";
+import { filterItemsByStartsWith } from "../utils/searchUtils.js";
 import { STATUS_OPTIONS } from "../globals.js";
 
 export default function MyFavorites() {
@@ -33,7 +33,7 @@ export default function MyFavorites() {
   }, [moviesByIds]);
 
   const handleSearch = (query) => {
-    const filteredMovies = filterItems(moviesByIds, query);
+    const filteredMovies = filterItemsByStartsWith(moviesByIds, query);
 
     setFilteredMovies(filteredMovies);
   };

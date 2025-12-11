@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { Grid, Typography, CircularProgress } from "@mui/material";
 
 import MovieCard from "./MovieCard.jsx";
+import { selectMoviesStatus } from "../../redux/slices/movies.js";
+import { STATUS_OPTIONS } from "../../globals.js";
 
 export default function MovieCardsList({ movies }) {
-  const [showCircular, setShowCircular] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowCircular(false), 2000);
-    
-    return () => clearTimeout(timer);
-  }, [movies]);
+  const moviesStatus = useSelector(selectMoviesStatus);
 
   return (
     <Grid
@@ -21,7 +17,12 @@ export default function MovieCardsList({ movies }) {
       alignItems="stretch"
       sx={{ backgroundColor: "#232324ff", py: 4, borderRadius: 4 }}
     >
-      {movies.length !== 0 ? (
+      {moviesStatus === STATUS_OPTIONS.LOADING ? (
+        <CircularProgress sx={{ color: "green" }} />
+      ) : moviesStatus === STATUS_OPTIONS.FAILED || movies.length === 0 ? (
+        <Typography color="green">No results</Typography>
+      ) : (
+        moviesStatus === STATUS_OPTIONS.SUCCEEDED &&
         movies.map((movie) => (
           <Grid key={movie.id}>
             <MovieCard
@@ -32,10 +33,6 @@ export default function MovieCardsList({ movies }) {
             />
           </Grid>
         ))
-      ) : showCircular ? (
-        <CircularProgress sx={{ color: "green" }} />
-      ) : (
-        <Typography color="green">No results</Typography>
       )}
     </Grid>
   );

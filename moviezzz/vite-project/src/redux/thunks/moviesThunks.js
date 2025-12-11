@@ -1,25 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getMovieById, getMoviesByIds, getMovies, getMoviesByFilters } from "../../api/moviesAPI.js";
+import { getMovieById, getMoviesByIds, getMovies, getMoviesByFilters, getMoviesPage, getLenOfMovies } from "../../api/moviesAPI.js";
 
-export const fetchMovies = createAsyncThunk(
-    "movies/fetchAll",
-    getMovies
+export const fetchMovies = createAsyncThunk("movies/fetchAll", getMovies);
+
+export const fetchLenOfMovies = createAsyncThunk("movies/fetchLenOfMovies", getLenOfMovies);
+
+export const fetchOneMovie = createAsyncThunk("movies/fetchOneMovie", getMovieById);
+
+export const fetchManyMovies = createAsyncThunk("movies/fetchManyMovies", getMoviesByIds);
+
+export const fetchPageOfMovies = createAsyncThunk(
+    "movies/fetchPageMovies",
+    (pageNum) => getMoviesPage(pageNum)
 );
-
-export const fetchOneMovie = createAsyncThunk(
-    "movies/fetchOneMovie",
-    getMovieById
-)
-
-export const fetchManyMovies = createAsyncThunk(
-    "movies/fetchManyMovies",
-    getMoviesByIds
-)
 
 export const fetchMoviesByFilters = createAsyncThunk(
     "movies/fetchByFilters",
-    ({ name = '', year = '', genre = '' }) => getMoviesByFilters(name, year, genre)
+    ({ name = '', year = '', genre = '', pageNum }) => getMoviesByFilters(name, year, genre, pageNum)
+    
 );
 
 export const fetchMoviesByName = createAsyncThunk(

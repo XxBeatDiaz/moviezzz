@@ -24,7 +24,6 @@ export default function AddToFavoritesBtn({
     <span
       style={{
         color: filled ? "#f1e9e9ff" : "#c1b9b9f0",
-
         transform: filled ? "scale(1.01)" : "scale(1)",
         transition: "transform 1.4s ease, color 0.8s ease",
       }}

@@ -1,16 +1,15 @@
+import { useSelector } from "react-redux";
+
 import { Box } from "@mui/material";
 
+import { selectPage } from "../redux/slices/movies.js";
 import { useSearchMovies } from "../hooks/useMovie.js";
 import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 
-import { STATUS_OPTIONS } from "../globals.js";
-
 export default function AllMoviesPage() {
-  const {
-    movies: moviesByIds,
-    status: moviesStatus,
-    error: moviesError,
-  } = useSearchMovies();
+  const { movies: moviesByIds } = useSearchMovies();
+
+  const pageOfMovies = useSelector(selectPage);
 
   return (
     <Box
@@ -21,11 +20,9 @@ export default function AllMoviesPage() {
         backgroundColor: "#313b3fff",
       }}
     >
-      {moviesStatus === STATUS_OPTIONS.FAILED ? (
-        <div>Error: {moviesError}</div>
-      ) : (
-        <MovieCardsList movies={moviesByIds} />
-      )}
+      <MovieCardsList
+        movies={pageOfMovies.length === 0 ? pageOfMovies : moviesByIds}
+      />
     </Box>
   );
 }

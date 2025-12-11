@@ -34,7 +34,7 @@ const searchSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMoviesByFilters.fulfilled, (state, action) => {
-        const moviesIds = action.payload.map(movie => movie.id);
+        const moviesIds = action.payload.movies.map(movie => movie.id);
 
         state.status = STATUS_OPTIONS.SUCCEEDED;
         state.ids = moviesIds;
@@ -48,7 +48,7 @@ const searchSlice = createSlice({
 
 export const selectSearchIds = (state) => state.search.ids;
 export const selectSearchStatus = (state) => state.search.status;
-export const selectSearcherror = (state) => state.search.error;
+export const selectSearchError = (state) => state.search.error;
 
 export const selectLastSearch = (state) => state.search.lastSearch;
 

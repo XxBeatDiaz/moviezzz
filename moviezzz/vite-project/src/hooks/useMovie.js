@@ -1,17 +1,13 @@
 import { useSelector } from "react-redux";
 
-import { selectSearchIds } from "../redux/slices/search.js";
-import { moviesSelectors, selectManyByIds, selectMoviesError, selectMoviesStatus } from "../redux/slices/movies.js";
+import { selectMoviesError, selectMoviesStatus, selectPage } from "../redux/slices/movies.js";
 
 export function useSearchMovies() {
-  const searchIds = useSelector(selectSearchIds);
-  const allMovies = useSelector(moviesSelectors.selectAll);
-  const filteredMovies = useSelector(selectManyByIds(searchIds));
-
-  const movies = searchIds && searchIds.length > 0 ? filteredMovies : allMovies;
-
+  const selectedPage = useSelector(selectPage);
   const moviesStatus = useSelector(selectMoviesStatus);
   const moviesError = useSelector(selectMoviesError);
+  
+  const movies =  selectedPage;
 
   return { movies, moviesStatus, moviesError };
 }

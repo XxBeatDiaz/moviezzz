@@ -3,7 +3,7 @@ export const LOGO = "/Logo8.png";
 export const LINKS = [
   { id: 1, label: "Home", url: "/" },
   { id: 2, label: "Movies", url: "/movies" },
-  { id: 3, label: "My favorites", url: "/myFavorites" },
+  { id: 3, label: "Favorites", url: "/myFavorites" },
 ];
 
 export const END_POINTS = {
@@ -17,7 +17,7 @@ export const STATUS_OPTIONS = {
   IDLE: 'idle',
   LOADING: 'loading',
   SUCCEEDED: 'succeeded',
-  FAILED: 'failed'
+  FAILED: 'rejected'
 };
 
 export const YEAR_OPTIONS = {
@@ -27,4 +27,4 @@ export const YEAR_OPTIONS = {
 
 export const MOVIE_TRAILER = "/video/matrixTrailer.mp4";
 
-export const HOME_PAGE_MOVIES_AMOUNT = 10;
+export const HOME_PAGE_MOVIES_AMOUNT = 7;

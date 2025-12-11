@@ -68,6 +68,13 @@ export const selectUserId = (state) => state.user.user.id;
 export const selectUserStatus = (state) => state.user.status;
 export const selectUserError = (state) => state.user.error;
 
+
+export const selectFavStatus = createSelector(
+  (state) => state.user.addFavStatus,
+  (state) => state.user.removeFavStatus,
+  (addFavStatus, removeFavStatus) => ({ addFavStatus, removeFavStatus })
+);
+
 export const selectMoviesIdsFromUser = createSelector(
     [selectUser],
     (user) => !user ? [] : user.moviesIds

@@ -29,7 +29,7 @@ export default function MovieCard({ movieId, title, posterPath, year }) {
 
   const isFavorite = favoriteMoviesIds.includes(Number(movieId));
 
-  async function handleUserAddFavorite(event) {
+  const handleUserAddFavorite = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -48,7 +48,7 @@ export default function MovieCard({ movieId, title, posterPath, year }) {
     }
   }
 
-  async function handleUserRemoveFavorite(event) {
+  const handleUserRemoveFavorite = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 

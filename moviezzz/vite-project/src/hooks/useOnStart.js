@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { selectMoviesStatus } from "../redux/slices/movies";
 import { selectGenresStatus } from "../redux/slices/genres";
-import { selectMoviesIdsFromUser, selectUserStatus } from "../redux/slices/user";
+import { selectFavStatus, selectMoviesIdsFromUser, selectUserStatus } from "../redux/slices/user";
 
-import { fetchManyMovies, fetchMovies } from "../redux/thunks/moviesThunks";
+import { fetchLenOfMovies, fetchManyMovies, fetchPageOfMovies } from "../redux/thunks/moviesThunks";
 import { fetchGenres } from "../redux/thunks/genresThunks";
 import { STATUS_OPTIONS } from "../globals";
 
@@ -16,10 +16,12 @@ export default function useOnStart() {
     const genresStatus = useSelector(selectGenresStatus);
     const userStatus = useSelector(selectUserStatus);
     const moviesIds = useSelector(selectMoviesIdsFromUser);
+    const favStatus = useSelector(selectFavStatus)
 
     useEffect(() => {
         if (moviesStatus === STATUS_OPTIONS.IDLE) {
-            dispatch(fetchMovies());
+            dispatch(fetchLenOfMovies())
+            dispatch(fetchPageOfMovies(1));
         }
     }, [dispatch, moviesStatus]);
 
@@ -30,8 +32,8 @@ export default function useOnStart() {
     }, [dispatch, genresStatus])
 
     useEffect(() => {
-        if (userStatus === STATUS_OPTIONS.SUCCEEDED && moviesIds.length > 0) {
+        if (userStatus === STATUS_OPTIONS.SUCCEEDED && moviesIds.length > 0 && favStatus.addFavStatus === STATUS_OPTIONS.IDLE && favStatus.removeFavStatus === STATUS_OPTIONS.IDLE ) {
             dispatch(fetchManyMovies(moviesIds));
         }
-    }, [dispatch, userStatus, moviesIds]);
+    }, [dispatch, userStatus, moviesIds, favStatus.addFavStatus, favStatus.removeFavStatus]);
 }

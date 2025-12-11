@@ -1,11 +1,11 @@
-export async function fetchAction(API_URL, method = 'GET', body) {
+export const fetchAction = async (apiUrl, method = 'GET', body) => {
     const options = {
         method,
         headers: { 'Content-Type': 'application/json' },
         ...(method !== 'GET' && { body: JSON.stringify(body) })
     };
 
-    const res = await fetch(API_URL, options);
+    const res = await fetch(apiUrl, options);
     
     if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);

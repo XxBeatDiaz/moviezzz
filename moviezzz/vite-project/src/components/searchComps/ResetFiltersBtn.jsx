@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 
 import { removeAll } from "../../redux/slices/search.js";
 
-export default function ResetFiltersBtn({ onClick }) {
+export default function ResetFiltersBtn({ onClick = () => {} }) {
   const dispatch = useDispatch();
 
   const handleResetFilter = () => {
