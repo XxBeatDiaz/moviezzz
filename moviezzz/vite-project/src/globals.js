@@ -27,4 +27,5 @@ export const YEAR_OPTIONS = {
 
 export const MOVIE_TRAILER = "/video/matrixTrailer.mp4";
 
-export const HOME_PAGE_MOVIES_AMOUNT = 7;
+export const NEWEST_MOVIES = 7;
+export const AMOUNT_MOVIES_IN_PAGE = 10;

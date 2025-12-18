@@ -2,14 +2,16 @@ import { useSelector } from "react-redux";
 
 import { Box } from "@mui/material";
 
-import { selectMoviesStatus, selectTheNewestMovies } from "../redux/slices/movies";
+import {
+  selectMoviesStatus,
+  selectTheNewestMovies,
+} from "../redux/slices/movies";
 import MovieCardCarousel from "../components/moviesComps/MovieCardCarousel.jsx";
-import { HOME_PAGE_MOVIES_AMOUNT } from "../globals";
 
 export default function HomePage() {
   const moviesStatus = useSelector(selectMoviesStatus);
-  const movies = useSelector(selectTheNewestMovies(HOME_PAGE_MOVIES_AMOUNT));
-
+  const newestMovies = useSelector(selectTheNewestMovies);
+  
 
   return (
     <Box
@@ -22,7 +24,7 @@ export default function HomePage() {
     >
       <MovieCardCarousel
         title={"The newest movies"}
-        movies={moviesStatus && movies}
+        movies={moviesStatus && newestMovies}
         link={{ url: "/movies", text: "See more" }}
       />
     </Box>

@@ -2,14 +2,14 @@ import { useSelector } from "react-redux";
 
 import { Box } from "@mui/material";
 
-import { selectPage } from "../redux/slices/movies.js";
+import { selectMoviesForCurrentPage } from "../redux/slices/movies.js";
 import { useSearchMovies } from "../hooks/useMovie.js";
 import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 
 export default function AllMoviesPage() {
   const { movies: moviesByIds } = useSearchMovies();
 
-  const pageOfMovies = useSelector(selectPage);
+  const pageOfMovies = useSelector(selectMoviesForCurrentPage);
 
   return (
     <Box

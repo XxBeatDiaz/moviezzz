@@ -1,39 +1,23 @@
 import movies from "../DB/movies.json" with { type: "json" };
 import { filterItemsByChars } from "../DB/utils.js";
+import { getMoviesSlice } from "./utils.js";
 
 
 export function getAllMovies() {
   return movies;
 }
 
-export function getLenOfMovies() {
-  return movies.length;
+export function getTheNewestMovies(amount) {
+  return [...movies]
+    .sort((a, b) => b.year - a.year)
+    .slice(0, amount);
 }
 
-export function getMoviesSlice(page = 1, moviesPage) {
-  const PAGE_LIMIT = 10;
-
-  const start = (page - 1) * PAGE_LIMIT;
-  const end = start + PAGE_LIMIT;
-
-  const lenOfNextPage = moviesPage.length > end ? moviesPage.length - end : 0;
-
-  return { movies: moviesPage.slice(start, end), lenOfNextPage: lenOfNextPage };
+export function getMoviesPage(offset, limit) {
+  return getMoviesSlice(offset, limit, movies);
 }
 
-export function getMoviesPage(page) {
-  const PAGE_LIMIT = 10;
-
-  const start = (page - 1) * PAGE_LIMIT;
-  const end = start + PAGE_LIMIT;
-
-
-  const lenOfNextPage = movies.length > end ? movies.length - end : 0;
-
-  return { movies: movies.slice(start, end), lenOfNextPage: lenOfNextPage };
-}
-
-export function getMoviesByFilters(filters, page) {
+export function getMoviesByFilters(offset, limit, filters) {
   const { name = '', year = '', genre = '' } = filters;
 
   const genreId = genre;
@@ -55,9 +39,7 @@ export function getMoviesByFilters(filters, page) {
     );
   }
 
-  const pageMovies = getMoviesSlice(page, filteredMovies);
-
-  return pageMovies;
+  return getMoviesSlice(offset, limit, filteredMovies);
 }
 
 export function getMovieById(movieId) {

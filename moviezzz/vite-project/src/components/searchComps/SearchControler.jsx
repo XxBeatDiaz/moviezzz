@@ -7,68 +7,71 @@ import FiltersDrawer from "./FiltersDrawer";
 import PagingBtn from "./PagingBtn";
 
 import { selectLastSearch, setLastSearch } from "../../redux/slices/search";
+import {
+  selectMoviesPaging,
+  resetMovies,
+  nextPage,
+  prevPage,
+} from "../../redux/slices/movies";
 import { fetchMoviesByFilters } from "../../redux/thunks/moviesThunks";
-import { selectLenOfNextPage } from "../../redux/slices/movies";
+import { AMOUNT_MOVIES_IN_PAGE } from "../../globals";
 
 export default function SearchControler() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(1);
-
-  const lenOfNextPage = useSelector(selectLenOfNextPage);
   const lastSearch = useSelector(selectLastSearch);
+  const moviesPaging = useSelector(selectMoviesPaging);
+
+  const [page, setPage] = useState(1);
 
   const isMoviesPage = location.pathname === "/movies";
 
+  const runSearch = (filters, offset = 0) => {
+    dispatch(
+      fetchMoviesByFilters({ ...filters, offset, limit: AMOUNT_MOVIES_IN_PAGE })
+    );
+    navigate(`/movies`);
+  };
+
   const handleNextPage = () => {
-    const nextPage = page + 1;
-    if (lenOfNextPage > 0) {
-      setPage(nextPage);
-      runSearch(lastSearch, nextPage);
+    const theNextPage = page + 1;
+
+    if (moviesPaging.hasMore) {
+      runSearch(lastSearch, moviesPaging.moviesInStore);
     }
+    setPage(theNextPage);
+    dispatch(nextPage());
   };
 
   const handlePrevPage = () => {
     if (page > 1) {
-      const prevPage = page - 1;
-      setPage(prevPage);
-      runSearch(lastSearch, prevPage);
+      setPage(page - 1);
+      dispatch(prevPage());
     }
-  };
-
-  const runSearch = (filters, pageNum = 1) => {
-    dispatch(fetchMoviesByFilters({ ...filters, pageNum }));
-    navigate(`/movies`);
   };
 
   const handleAllFilters = (updatedFilters) => {
     dispatch(setLastSearch(updatedFilters));
+    dispatch(resetMovies());
     setPage(1);
-    runSearch(updatedFilters, 1);
+    runSearch(updatedFilters, 0);
   };
 
   const handleSearchBar = (query) => {
-    query.trim() !== "" && handleAllFilters({ ...lastSearch, name: query });
+    if (query.trim() !== "") handleAllFilters({ ...lastSearch, name: query });
   };
 
   const handleFiltersDrawer = (year, genre) => {
     if (year || genre) {
-      handleAllFilters({
-        ...lastSearch,
-        name: "",
-        year: year,
-        genre: genre,
-      });
+      handleAllFilters({ ...lastSearch, name: "", year, genre });
     }
   };
 
   const handleResetFilters = () => {
     const initialFilters = { name: "", year: "", genre: "" };
-
     handleAllFilters(initialFilters);
-
     return initialFilters;
   };
 
@@ -88,9 +91,10 @@ export default function SearchControler() {
       {isMoviesPage && (
         <PagingBtn
           page={page}
-          lenOfNextPage={lenOfNextPage}
           onClickNext={handleNextPage}
           onClickPrev={handlePrevPage}
+          disabledNext={!moviesPaging.hasMore && page >= moviesPaging.totalPage}
+          disabledPrev={page === 1}
         />
       )}
     </>

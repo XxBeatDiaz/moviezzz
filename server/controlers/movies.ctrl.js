@@ -1,4 +1,4 @@
-import { getAllMovies, getMoviesByFilters, getMovieById, getMoviesByIds, getMoviesPage, getLenOfMovies } from "../services/movies.service.js";
+import { getAllMovies, getMoviesByFilters, getMovieById, getMoviesByIds, getMoviesPage, getTheNewestMovies } from "../services/movies.service.js";
 
 
 export function getMovies(req, res) {
@@ -10,20 +10,23 @@ export function getMovies(req, res) {
   }
 }
 
-export function getLenMovies(req, res) {
+export function getTheNewest(req, res) {
+  const { amount } = req.params;
+
   try {
-    const lenOfMovies = getLenOfMovies();
-    res.json(lenOfMovies);
+    const newestMovies = getTheNewestMovies(amount);
+
+    res.json(newestMovies);
   } catch (error) {
     res.status(500).json({ error: 'Faild to fetch movies' })
   }
 }
 
 export function getOneMoviesPage(req, res) {
-  const { pageNum } = req.params
+  const { offset, limit } = req.query
 
   try {
-    const movies = getMoviesPage(Number(pageNum));
+    const movies = getMoviesPage(Number(offset), Number(limit));
 
     res.json(movies);
   } catch (error) {
@@ -33,13 +36,9 @@ export function getOneMoviesPage(req, res) {
 
 export function getMoviesByFiltersCtrl(req, res) {
   try {
-    const { name = '', year = '', genre = '', pageNum } = req.query;
+    const { name = '', year = '', genre = '', offset, limit } = req.query;
 
-    const filteredMovies = getMoviesByFilters({ name, year, genre }, Number(pageNum));
-
-    if (!filteredMovies || filteredMovies.length === 0) {
-      return res.status(404).json({ msg: "movies not found" })
-    }
+    const filteredMovies = getMoviesByFilters(Number(offset), Number(limit), { name, year, genre });
 
     return res.json(filteredMovies);
   } catch (err) {
@@ -52,11 +51,9 @@ export function getOneMovieById(req, res) {
   try {
     const { id } = req.params;
     const movie = getMovieById(id);
-    if (movie) {
-      res.json(movie);
-    } else {
-      res.status(404).json({ message: 'Movie not found' });
-    }
+
+    res.json(movie);
+
   } catch (error) {
     res.status(500).json({ error: `Faild to fetch movie: ${id} ` })
   }

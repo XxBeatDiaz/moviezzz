@@ -2,16 +2,17 @@ import { Box, Typography, Button } from "@mui/material";
 
 export default function PagingBtn({
   page,
-  lenOfNextPage,
   onClickNext,
   onClickPrev,
+  disabledNext,
+  disabledPrev,
 }) {
   return (
     <Box display="flex" alignItems="center" gap={2}>
       <Button
         variant="contained"
         onClick={onClickPrev}
-        disabled={page === 1}
+        disabled={disabledPrev}
         sx={{
           bgcolor: "#8f3838b4",
           height: "40px",
@@ -29,7 +30,7 @@ export default function PagingBtn({
       <Button
         variant="contained"
         onClick={onClickNext}
-        disabled={lenOfNextPage <= 0}
+        disabled={disabledNext}
         sx={{
           bgcolor: "#8f3838b4",
           height: "40px",

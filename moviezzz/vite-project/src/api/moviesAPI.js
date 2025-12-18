@@ -5,12 +5,15 @@ const API_URL = END_POINTS.MOVIES_URL;
 
 export const getMovies = () => fetchAction(API_URL);
 
-export const getLenOfMovies = () => fetchAction(`${API_URL}/len`);
+export const getTheNewestMovies = (amount) => fetchAction(`${API_URL}/newestMovies/${amount}`);
 
-export const getMoviesPage = (pageNum) => fetchAction(`${API_URL}/page/${pageNum}`)
+export const getMoviesPage = (offset = 0, limit = 10) => {
+    const params = new URLSearchParams({ offset, limit });
 
-export const getMoviesByFilters = (name, year, genres, pageNum) => {
-    
+    return fetchAction(`${API_URL}/page?${params}`);
+}
+
+export const getMoviesByFilters = (name, year, genres, offset, limit) => {
     const params = new URLSearchParams();
 
     name && params.set('name', name);
@@ -22,8 +25,8 @@ export const getMoviesByFilters = (name, year, genres, pageNum) => {
             params.set('genre', genres))
     };
 
-    params.set("pageNum", pageNum);
-    
+    params.set("offset", offset);
+    params.set("limit", limit);
 
     return fetchAction(`${API_URL}/search?${params}`);
 }
