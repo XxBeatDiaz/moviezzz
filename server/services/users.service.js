@@ -34,8 +34,6 @@ export async function getUserByLogin(username, password) {
 }
 
 export async function addToFavoriteList(userId, movieId) {
-  console.log(userId, movieId);
-  
   const users = await getAllUsers();
   const user = getUserByIdInit(users, userId);
 
@@ -51,7 +49,7 @@ export async function addToFavoriteList(userId, movieId) {
 export async function removeFromFavoriteList(userId, movieId) {
   const users = await getAllUsers();
   const user = getUserByIdInit(users, userId);
-  
+
   user.moviesIds = user.moviesIds.filter(
     mId => mId.toString() !== movieId.toString()
   );

@@ -13,6 +13,8 @@ const initialState = moviesAdapter.getInitialState({
     limit: AMOUNT_MOVIES_IN_PAGE,
 
     newestMovies: [],
+    favoritesMovies: [],
+    favoritesMoviesStatus: STATUS_OPTIONS.IDLE,
 });
 
 const moviesSlice = createSlice({
@@ -34,12 +36,16 @@ const moviesSlice = createSlice({
 
         prevPage(state) {
             state.page -= 1;
+        },
+
+        removeFavoritesMovies(state) {
+            state.favoritesMovies = [];
         }
     },
 
     extraReducers: (builder) => {
         builder.addMatcher(
-            isPending(fetchMovies, fetchOneMovie, fetchManyMovies, fetchMoviesByFilters, fetchPageOfMovies, fetchTheNewestMovies),
+            isPending(fetchMovies, fetchOneMovie, fetchMoviesByFilters, fetchPageOfMovies, fetchTheNewestMovies),
             (state) => {
                 state.status = STATUS_OPTIONS.LOADING;
                 state.error = null;
@@ -76,17 +82,24 @@ const moviesSlice = createSlice({
         );
 
         builder.addMatcher(
-            isFulfilled(fetchMovies, fetchManyMovies),
+            isFulfilled(fetchMovies),
             (state, action) => {
                 state.status = STATUS_OPTIONS.SUCCEEDED;
-                state.total = action.payload.length;
 
-                moviesAdapter.upsertMany(state, action.payload)
+                moviesAdapter.upsertMany(state, action.payload);
             }
         );
 
         builder.addMatcher(
-            isRejected(fetchMovies, fetchOneMovie, fetchManyMovies, fetchMoviesByFilters, fetchPageOfMovies, fetchTheNewestMovies),
+            isFulfilled(fetchManyMovies),
+            (state, action) => {
+                state.status = STATUS_OPTIONS.SUCCEEDED;
+                state.favoritesMovies = action.payload;
+            }
+        );
+
+        builder.addMatcher(
+            isRejected(fetchMovies, fetchOneMovie, fetchMoviesByFilters, fetchPageOfMovies, fetchTheNewestMovies),
             (state, action) => {
                 state.status = STATUS_OPTIONS.FAILED;
                 state.error = action.error.message;
@@ -101,6 +114,9 @@ export const selectMoviesStatus = (state) => state.movies.status;
 export const selectMoviesError = (state) => state.movies.error;
 
 export const selectTheNewestMovies = (state) => state.movies.newestMovies
+export const selectFavoritesMovies = (state) => state.movies.favoritesMovies
+export const selectFavoritesMoviesStatus = (state) => state.movies.favoritesMoviesStatus
+
 export const selectMovieById = (id) => (state) => moviesSelectors.selectById(state, id);
 
 export const selectManyByIds = (moviesIds) =>
@@ -142,5 +158,6 @@ export const {
     resetMovies,
     nextPage,
     prevPage,
+    removeFavoritesMovies,
 } = moviesSlice.actions;
 export default moviesSlice.reducer;

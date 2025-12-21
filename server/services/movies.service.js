@@ -47,6 +47,7 @@ export function getMovieById(movieId) {
 }
 
 export function getMoviesByIds(moviesIds) {
-  const moviesByIds = movies.filter((m) => moviesIds.includes(m.id.toString()));
-  return moviesByIds;
+  const moviesByIds = movies.filter((movie) => moviesIds.includes(movie.id.toString()));
+  
+  return moviesByIds || [];
 }

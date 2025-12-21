@@ -1,13 +1,10 @@
-import { useMemo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { Box, Typography, Divider } from "@mui/material";
 
-import {
-  selectMoviesIdsFromUser,
-  selectUserStatus,
-} from "../redux/slices/user.js";
-import { selectManyByIds } from "../redux/slices/movies.js";
+import { selectUserStatus } from "../redux/slices/user.js";
+import { selectFavoritesMovies } from "../redux/slices/movies.js";
 
 import MovieCardsList from "../components/moviesComps/MovieCardsList.jsx";
 import LoginDialog from "../components/userComps/LoginDialog.jsx";
@@ -18,22 +15,16 @@ import { STATUS_OPTIONS } from "../globals.js";
 
 export default function MyFavorites() {
   const userStatus = useSelector(selectUserStatus);
-  const moviesIds = useSelector(selectMoviesIdsFromUser);
+  const favoritesMovies = useSelector(selectFavoritesMovies);
 
-  const selectMoviesByIds = useMemo(
-    () => selectManyByIds(moviesIds),
-    [moviesIds]
-  );
-  const moviesByIds = useSelector(selectMoviesByIds);
-
-  const [filteredMovies, setFilteredMovies] = useState(moviesByIds);
+  const [filteredMovies, setFilteredMovies] = useState(favoritesMovies);
 
   useEffect(() => {
-    setFilteredMovies(moviesByIds);
-  }, [moviesByIds]);
+    setFilteredMovies(favoritesMovies);
+  }, [favoritesMovies]);
 
   const handleSearch = (query) => {
-    const filteredMovies = filterItemsByStartsWith(moviesByIds, query);
+    const filteredMovies = filterItemsByStartsWith(favoritesMovies, query);
 
     setFilteredMovies(filteredMovies);
   };
@@ -71,10 +62,11 @@ export default function MyFavorites() {
 
       <MovieCardsList movies={filteredMovies} />
 
-      <Box>
+      <Box sx={{display: 'flex', justifyContent: "center", alignItems: "center", mt: 2}}>
         {userStatus === STATUS_OPTIONS.SUCCEEDED || (
           <>
-            <Typography>To see your favorites, please login : </Typography>
+            <Typography sx={{color: "white", mr: 2}}>To see your favorites, please login: </Typography>
+            
             <LoginDialog />
           </>
         )}

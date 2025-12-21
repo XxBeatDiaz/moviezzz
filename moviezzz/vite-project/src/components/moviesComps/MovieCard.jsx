@@ -46,7 +46,7 @@ export default function MovieCard({ movieId, title, posterPath, year }) {
         })
       );
     }
-  }
+  };
 
   const handleUserRemoveFavorite = async (event) => {
     event.preventDefault();
@@ -65,7 +65,7 @@ export default function MovieCard({ movieId, title, posterPath, year }) {
         })
       );
     }
-  }
+  };
 
   return (
     <Link to={`/movie/${movieId}`} style={{ textDecoration: "none" }}>

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectMoviesStatus } from "../redux/slices/movies";
@@ -10,6 +11,7 @@ import { fetchGenres } from "../redux/thunks/genresThunks";
 import { AMOUNT_MOVIES_IN_PAGE, NEWEST_MOVIES, STATUS_OPTIONS } from "../globals";
 
 export default function useOnStart() {
+    const location = useLocation();
     const dispatch = useDispatch();
 
     const moviesStatus = useSelector(selectMoviesStatus);
@@ -32,8 +34,8 @@ export default function useOnStart() {
     }, [dispatch, genresStatus])
 
     useEffect(() => {
-        if (userStatus === STATUS_OPTIONS.SUCCEEDED && moviesIds.length > 0 && favStatus.addFavStatus === STATUS_OPTIONS.IDLE && favStatus.removeFavStatus === STATUS_OPTIONS.IDLE ) {
+        if (userStatus === STATUS_OPTIONS.SUCCEEDED && location.pathname === "/myFavorites") {
             dispatch(fetchManyMovies(moviesIds));
         }
-    }, [dispatch, userStatus, moviesIds, favStatus.addFavStatus, favStatus.removeFavStatus]);
+    }, [dispatch, userStatus, moviesIds, favStatus, location.pathname]);
 }

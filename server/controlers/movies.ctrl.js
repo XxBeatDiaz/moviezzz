@@ -62,13 +62,14 @@ export function getOneMovieById(req, res) {
 export function getManyMoviesByIds(req, res) {
   try {
     const { moviesIds } = req.query;
-    const movies = getMoviesByIds(moviesIds);
-    if (movies) {
-      res.json(movies);
-    } else {
-      res.status(404).json({ message: 'Movies not found' });
-    }
+
+    const isArray = Array.isArray(moviesIds);
+
+    const movies = getMoviesByIds((moviesIds && isArray ? moviesIds : [moviesIds]) || []);
+
+    res.json(movies);
+
   } catch (error) {
-    res.status(500).json({ error: `Faild to fetch movies: ${moviesIds} ` })
+    res.status(500).json({ error: `Faild to fetch movies` })
   }
 }
