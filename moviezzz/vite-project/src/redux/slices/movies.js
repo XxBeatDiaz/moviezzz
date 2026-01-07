@@ -1,6 +1,6 @@
 import { createSlice, createEntityAdapter, createSelector, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit';
 
-import { fetchMovies, fetchMoviesByFilters, fetchOneMovie, fetchManyMovies, fetchPageOfMovies, fetchTheNewestMovies } from '../thunks/moviesThunks.js';
+import { fetchMovies, fetchMoviesByFilters, fetchOneMovie, fetchManyMovies, fetchMoviesPage, fetchTheNewestMovies } from '../thunks/moviesThunks.js';
 import { AMOUNT_MOVIES_IN_PAGE, STATUS_OPTIONS } from '../../globals.js';
 
 const moviesAdapter = createEntityAdapter();
@@ -10,6 +10,7 @@ const initialState = moviesAdapter.getInitialState({
 
     total: 0,
     page: 1,
+    offset: 0,
     limit: AMOUNT_MOVIES_IN_PAGE,
 
     newestMovies: [],
@@ -25,17 +26,20 @@ const moviesSlice = createSlice({
             moviesAdapter.removeAll(state);
             state.status = STATUS_OPTIONS.IDLE;
             state.error = null;
-
             state.total = 0;
             state.page = 1;
+            state.offset = 0;
         },
 
         nextPage(state) {
             state.page += 1;
+            state.offset = (state.page - 1) * state.limit;
         },
 
         prevPage(state) {
-            state.page -= 1;
+            if (state.page > 1) {
+                state.page -= 1;
+            }
         },
 
         removeFavoritesMovies(state) {
@@ -45,7 +49,7 @@ const moviesSlice = createSlice({
 
     extraReducers: (builder) => {
         builder.addMatcher(
-            isPending(fetchMovies, fetchOneMovie, fetchMoviesByFilters, fetchPageOfMovies, fetchTheNewestMovies),
+            isPending(fetchMovies, fetchOneMovie, fetchMoviesByFilters, fetchMoviesPage, fetchTheNewestMovies),
             (state) => {
                 state.status = STATUS_OPTIONS.LOADING;
                 state.error = null;
@@ -70,7 +74,7 @@ const moviesSlice = createSlice({
         );
 
         builder.addMatcher(
-            isFulfilled(fetchPageOfMovies, fetchMoviesByFilters),
+            isFulfilled(fetchMoviesPage, fetchMoviesByFilters),
             (state, action) => {
                 const { movies, total } = action.payload
 
@@ -99,7 +103,7 @@ const moviesSlice = createSlice({
         );
 
         builder.addMatcher(
-            isRejected(fetchMovies, fetchOneMovie, fetchMoviesByFilters, fetchPageOfMovies, fetchTheNewestMovies),
+            isRejected(fetchMovies, fetchOneMovie, fetchMoviesByFilters, fetchMoviesPage, fetchTheNewestMovies),
             (state, action) => {
                 state.status = STATUS_OPTIONS.FAILED;
                 state.error = action.error.message;
@@ -140,16 +144,20 @@ export const selectMoviesPaging = createSelector(
         moviesSelectors.selectAll,
         (state) => state.movies.page,
         (state) => state.movies.total,
+        (state) => state.movies.limit,
+        (state) => state.movies.offset
     ],
-    (movies, page, total) => {
+    (movies, page, total, limit, offset) => {
         const moviesInStore = movies.length;
 
         return {
             page,
             total,
+            limit,
+            offset,
             moviesInStore,
             hasMore: moviesInStore < total,
-            totalPage: Math.ceil(total / AMOUNT_MOVIES_IN_PAGE),
+            totalPage: Math.ceil(total / limit),
         };
     }
 );

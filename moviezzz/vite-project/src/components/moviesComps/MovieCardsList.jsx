@@ -9,6 +9,14 @@ import { STATUS_OPTIONS } from "../../globals.js";
 export default function MovieCardsList({ movies }) {
   const moviesStatus = useSelector(selectMoviesStatus);
 
+  const isLoading = moviesStatus === STATUS_OPTIONS.LOADING;
+  const isError = moviesStatus === STATUS_OPTIONS.FAILED;
+  const isMovies =
+    moviesStatus === STATUS_OPTIONS.SUCCEEDED &&
+    movies.length > 0 &&
+    movies !== null &&
+    movies !== undefined;
+
   return (
     <Grid
       container
@@ -17,12 +25,11 @@ export default function MovieCardsList({ movies }) {
       alignItems="stretch"
       sx={{ backgroundColor: "#232324ff", py: 4, borderRadius: 4 }}
     >
-      {moviesStatus === STATUS_OPTIONS.LOADING ? (
+      {isLoading ? (
         <CircularProgress sx={{ color: "green" }} />
-      ) : moviesStatus === STATUS_OPTIONS.FAILED || movies.length === 0 ? (
-        <Typography color="green">No results</Typography>
-      ) : (
-        moviesStatus === STATUS_OPTIONS.SUCCEEDED &&
+      ) : isError ? (
+        <Typography color="red">Failed to load movies</Typography>
+      ) : isMovies ? (
         movies.map((movie) => (
           <Grid key={movie.id}>
             <MovieCard
@@ -33,6 +40,8 @@ export default function MovieCardsList({ movies }) {
             />
           </Grid>
         ))
+      ) : (
+        <Typography color="green">No results</Typography>
       )}
     </Grid>
   );

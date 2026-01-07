@@ -6,7 +6,7 @@ import { selectMoviesStatus } from "../redux/slices/movies";
 import { selectGenresStatus } from "../redux/slices/genres";
 import { selectFavStatus, selectMoviesIdsFromUser, selectUserStatus } from "../redux/slices/user";
 
-import { fetchManyMovies, fetchPageOfMovies, fetchTheNewestMovies } from "../redux/thunks/moviesThunks";
+import { fetchManyMovies, fetchMoviesPage, fetchTheNewestMovies } from "../redux/thunks/moviesThunks";
 import { fetchGenres } from "../redux/thunks/genresThunks";
 import { AMOUNT_MOVIES_IN_PAGE, NEWEST_MOVIES, STATUS_OPTIONS } from "../globals";
 
@@ -23,7 +23,7 @@ export default function useOnStart() {
     useEffect(() => {
         if (moviesStatus === STATUS_OPTIONS.IDLE) {
             dispatch(fetchTheNewestMovies(NEWEST_MOVIES));
-            dispatch(fetchPageOfMovies(AMOUNT_MOVIES_IN_PAGE))
+            dispatch(fetchMoviesPage(AMOUNT_MOVIES_IN_PAGE))
         }
     }, [dispatch, moviesStatus]);
 

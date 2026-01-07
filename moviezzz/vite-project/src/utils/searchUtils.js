@@ -10,8 +10,8 @@ export const filterItemsByStartsWith = (items, query) => {
     query = query.toLowerCase();
 
     return items.filter(item =>
-        item.title.split(' ').some(word =>
-            word.toLowerCase().startsWith(query)
+        item.title.toLowerCase().split(' ').some(word =>
+            word.startsWith(query)
         )
     );
 }

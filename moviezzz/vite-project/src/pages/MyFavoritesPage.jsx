@@ -62,11 +62,20 @@ export default function MyFavorites() {
 
       <MovieCardsList movies={filteredMovies} />
 
-      <Box sx={{display: 'flex', justifyContent: "center", alignItems: "center", mt: 2}}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: 2,
+        }}
+      >
         {userStatus === STATUS_OPTIONS.SUCCEEDED || (
           <>
-            <Typography sx={{color: "white", mr: 2}}>To see your favorites, please login: </Typography>
-            
+            <Typography sx={{ color: "white", mr: 2 }}>
+              To see your favorites, please login:{" "}
+            </Typography>
+
             <LoginDialog />
           </>
         )}

@@ -4,8 +4,9 @@
     "username": "john",
     "password": "1",
     "moviesIds": [
-      1,
-      8
+      25,
+      23,
+      29
     ]
   },
   {

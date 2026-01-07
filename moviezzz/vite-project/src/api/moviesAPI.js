@@ -5,7 +5,7 @@ const API_URL = END_POINTS.MOVIES_URL;
 
 export const getMovies = () => fetchAction(API_URL);
 
-export const getTheNewestMovies = (amount) => fetchAction(`${API_URL}/newestMovies/${amount}`);
+export const getNewestMovies = (amount) => fetchAction(`${API_URL}/newestMovies/${amount}`);
 
 export const getMoviesPage = (offset = 0, limit = 10) => {
     const params = new URLSearchParams({ offset, limit });

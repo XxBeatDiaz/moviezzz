@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import {
   Button,
@@ -12,14 +11,14 @@ import {
 
 import LoginForm from "./LoginForm";
 
-import { showAlert } from "../../redux/slices/alert";
+import { useAsyncActionWithAlert } from "../../hooks/useAsyncActionWithAlert";
 import { fetchUser } from "../../redux/thunks/userThunks";
 
 const LOGIN_DIALOG_TEXT =
   "To subscribe to this website, please enter your username and password here.";
 
 export default function LoginDialog() {
-  const dispatch = useDispatch();
+  const runAction = useAsyncActionWithAlert();
 
   const [open, setOpen] = useState(false);
 
@@ -33,27 +32,21 @@ export default function LoginDialog() {
   };
 
   const handleSubmit = async (event) => {
-    event.stopPropagation();
     event.preventDefault();
+    event.stopPropagation();
 
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
     const { username, password } = formJson;
 
-    try {
-      await dispatch(fetchUser({ username, password })).unwrap();
-      dispatch(
-        showAlert({ type: "success", message: "Logged in successfully!" })
-      );
-      handleClose();
-    } catch (error) {
-      dispatch(
-        showAlert({
-          type: "error",
-          message: `Login failed! <${error.message}>`,
-        })
-      );
-    }
+    await runAction({
+      action: fetchUser,
+      payload: { username, password },
+      successMessage: "Logged in successfully!",
+      errorMessage: "Login failed!",
+    });
+
+    handleClose();
   };
 
   return (

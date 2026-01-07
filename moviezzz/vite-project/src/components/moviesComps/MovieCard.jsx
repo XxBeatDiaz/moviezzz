@@ -1,10 +1,10 @@
+import { useCallback } from "react";
 import { Link } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 
 import AddToFavoritesBtn from "./AddToFavoritesBtn";
-import { showAlert } from "../../redux/slices/alert";
 
 import {
   selectUserStatus,
@@ -17,9 +17,10 @@ import {
   removeUserFavoriteMovie,
 } from "../../redux/thunks/userThunks";
 import { STATUS_OPTIONS } from "../../globals";
+import { useAsyncActionWithAlert } from "../../hooks/useAsyncActionWithAlert";
 
 export default function MovieCard({ movieId, title, posterPath, year }) {
-  const dispatch = useDispatch();
+  const runAction = useAsyncActionWithAlert();
 
   const userStatus = useSelector(selectUserStatus);
   const user = useSelector(selectUser);
@@ -27,45 +28,22 @@ export default function MovieCard({ movieId, title, posterPath, year }) {
 
   const userId = user?.id;
 
-  const isFavorite = favoriteMoviesIds.includes(Number(movieId));
+  const isFavorite = favoriteMoviesIds?.includes(movieId);
 
-  const handleUserAddFavorite = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+  const handleUserFavorite = useCallback(
+    (action, successMessage, errorMessage) => async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
 
-    try {
-      await dispatch(addUserFavoriteMovie({ userId, movieId })).unwrap();
-      dispatch(
-        showAlert({ type: "success", message: "Movie added successfully" })
-      );
-    } catch (error) {
-      dispatch(
-        showAlert({
-          type: "error",
-          message: `Failed to add movie. <${error.message}>`,
-        })
-      );
-    }
-  };
-
-  const handleUserRemoveFavorite = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    try {
-      await dispatch(removeUserFavoriteMovie({ userId, movieId })).unwrap();
-      dispatch(
-        showAlert({ type: "success", message: "Movie removed successfully" })
-      );
-    } catch (error) {
-      dispatch(
-        showAlert({
-          type: "error",
-          message: `Failed to remove movie. <${error.message}>`,
-        })
-      );
-    }
-  };
+      await runAction({
+        action,
+        payload: { userId, movieId },
+        successMessage,
+        errorMessage,
+      });
+    },
+    [runAction, userId, movieId]
+  );
 
   return (
     <Link to={`/movie/${movieId}`} style={{ textDecoration: "none" }}>
@@ -125,8 +103,16 @@ export default function MovieCard({ movieId, title, posterPath, year }) {
               {userStatus === STATUS_OPTIONS.SUCCEEDED ? (
                 <AddToFavoritesBtn
                   initialFilled={isFavorite}
-                  onAddClick={handleUserAddFavorite}
-                  onRemoveClick={handleUserRemoveFavorite}
+                  onAddClick={handleUserFavorite(
+                    addUserFavoriteMovie,
+                    "Movie added successfully",
+                    "Failed to add movie"
+                  )}
+                  onRemoveClick={handleUserFavorite(
+                    removeUserFavoriteMovie,
+                    "Movie removed successfully",
+                    "Failed to remove movie"
+                  )}
                 />
               ) : null}
 

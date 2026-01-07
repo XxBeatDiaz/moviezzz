@@ -6,7 +6,7 @@ export const fetchAction = async (apiUrl, method = 'GET', body) => {
     };
 
     const res = await fetch(apiUrl, options);
-    
+
     if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
     }

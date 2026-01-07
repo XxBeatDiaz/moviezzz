@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import SearchControler from "../components/searchComps/SearchControler.jsx";
+import SearchController from "../components/searchComps/SearchController.jsx";
 
 export default function TopNav({ logo, links, avatar, loginSection }) {
   return (
@@ -95,7 +95,7 @@ export default function TopNav({ logo, links, avatar, loginSection }) {
           ))}
         </Stack>
 
-        <SearchControler />
+        <SearchController />
 
         <Stack direction="row" alignItems="center" spacing={1.5}>
           <Avatar src={avatar} />

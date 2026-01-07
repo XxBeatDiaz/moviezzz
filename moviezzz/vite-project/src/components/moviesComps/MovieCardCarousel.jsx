@@ -1,18 +1,22 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
 
 import { Box, CircularProgress, Typography } from "@mui/material";
 
 import MovieCard from "./MovieCard";
+import { selectMoviesStatus } from "../../redux/slices/movies";
+import { STATUS_OPTIONS } from "../../globals";
 
 export default function MovieCardCarousel({ title, movies, link }) {
-  const [showCircular, setShowCircular] = useState(true);
+  const moviesStatus = useSelector(selectMoviesStatus);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowCircular(false), 2000);
-    
-    return () => clearTimeout(timer);
-  }, [movies.length]);
+  const isLoading = moviesStatus === STATUS_OPTIONS.LOADING;
+  const isError = moviesStatus === STATUS_OPTIONS.FAILED;
+  const isMovies =
+    moviesStatus === STATUS_OPTIONS.SUCCEEDED &&
+    movies.length > 0 &&
+    movies !== null &&
+    movies !== undefined;
 
   return (
     <>
@@ -56,7 +60,11 @@ export default function MovieCardCarousel({ title, movies, link }) {
           },
         }}
       >
-        {movies.length !== 0 ? (
+        {isLoading ? (
+          <CircularProgress sx={{ color: "green" }} />
+        ) : isError ? (
+          <Typography color="red">Failed to load movies</Typography>
+        ) : isMovies ? (
           movies.map((movie) => (
             <MovieCard
               key={movie.id}
@@ -66,8 +74,6 @@ export default function MovieCardCarousel({ title, movies, link }) {
               year={movie.year}
             />
           ))
-        ) : showCircular ? (
-          <CircularProgress sx={{ color: "green" }} />
         ) : (
           <Typography color="green">No results</Typography>
         )}

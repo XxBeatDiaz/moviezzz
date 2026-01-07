@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,40 +13,31 @@ import {
   prevPage,
 } from "../../redux/slices/movies";
 import { fetchMoviesByFilters } from "../../redux/thunks/moviesThunks";
-import { AMOUNT_MOVIES_IN_PAGE } from "../../globals";
 
-export default function SearchControler() {
+export default function SearchController() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const lastSearch = useSelector(selectLastSearch);
-  const moviesPaging = useSelector(selectMoviesPaging);
-
-  const [page, setPage] = useState(1);
+  const { page, totalPage, hasMore } = useSelector(selectMoviesPaging);
 
   const isMoviesPage = location.pathname === "/movies";
 
-  const runSearch = (filters, offset = 0) => {
-    dispatch(
-      fetchMoviesByFilters({ ...filters, offset, limit: AMOUNT_MOVIES_IN_PAGE })
-    );
+  const runSearch = (filters) => {
+    dispatch(fetchMoviesByFilters({ ...filters }));
     navigate(`/movies`);
   };
 
   const handleNextPage = () => {
-    const theNextPage = page + 1;
-
-    if (moviesPaging.hasMore) {
-      runSearch(lastSearch, moviesPaging.moviesInStore);
-    }
-    setPage(theNextPage);
     dispatch(nextPage());
+    if (hasMore) {
+      runSearch(lastSearch);
+    }
   };
 
   const handlePrevPage = () => {
     if (page > 1) {
-      setPage(page - 1);
       dispatch(prevPage());
     }
   };
@@ -55,8 +45,7 @@ export default function SearchControler() {
   const handleAllFilters = (updatedFilters) => {
     dispatch(setLastSearch(updatedFilters));
     dispatch(resetMovies());
-    setPage(1);
-    runSearch(updatedFilters, 0);
+    runSearch(updatedFilters);
   };
 
   const handleSearchBar = (query) => {
@@ -71,7 +60,9 @@ export default function SearchControler() {
 
   const handleResetFilters = () => {
     const initialFilters = { name: "", year: "", genre: "" };
+
     handleAllFilters(initialFilters);
+
     return initialFilters;
   };
 
@@ -93,7 +84,7 @@ export default function SearchControler() {
           page={page}
           onClickNext={handleNextPage}
           onClickPrev={handlePrevPage}
-          disabledNext={!moviesPaging.hasMore && page >= moviesPaging.totalPage}
+          disabledNext={!hasMore && page >= totalPage}
           disabledPrev={page === 1}
         />
       )}
