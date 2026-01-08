@@ -2,13 +2,14 @@ import { Box, Typography, Button } from "@mui/material";
 
 export default function PagingBtn({
   page,
+  totalPage,
   onClickNext,
   onClickPrev,
   disabledNext,
   disabledPrev,
 }) {
   return (
-    <Box display="flex" alignItems="center" gap={2}>
+    <Box display="flex" alignItems="center" justifyContent="space-between" gap={2}>
       <Button
         variant="contained"
         onClick={onClickPrev}
@@ -23,8 +24,8 @@ export default function PagingBtn({
         Previous ←
       </Button>
 
-      <Typography sx={{ color: "#deccccbd" }} variant="body1">
-        {page}
+      <Typography sx={{ color: "#deccccbd", width: "40px" }} variant="body1">
+        {`${page} / ${totalPage}`}
       </Typography>
 
       <Button

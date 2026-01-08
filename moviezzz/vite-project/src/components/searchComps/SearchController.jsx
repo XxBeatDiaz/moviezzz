@@ -82,6 +82,7 @@ export default function SearchController() {
       {isMoviesPage && (
         <PagingBtn
           page={page}
+          totalPage={totalPage}
           onClickNext={handleNextPage}
           onClickPrev={handlePrevPage}
           disabledNext={!hasMore && page >= totalPage}
