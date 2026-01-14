@@ -13,9 +13,9 @@ export default function MovieCardsList({ movies }) {
   const isError = moviesStatus === STATUS_OPTIONS.FAILED;
   const isMovies =
     moviesStatus === STATUS_OPTIONS.SUCCEEDED &&
-    movies.length > 0 &&
     movies !== null &&
-    movies !== undefined;
+    movies !== undefined &&
+    movies.length > 0;
 
   return (
     <Grid

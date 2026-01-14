@@ -4,7 +4,8 @@ import { IconButton } from "@mui/material";
 export default function SearchBtn({ isActive, onClick = () => {} }) {
   return (
     <IconButton
-      onClick={isActive ? onClick : undefined}
+      disabled={!isActive}
+      onClick={onClick}
       sx={{ cursor: isActive ? "pointer" : "default", alignSelf: "center" }}
     >
       <SearchIcon

@@ -6,8 +6,8 @@ import { selectMoviesStatus } from "../redux/slices/movies";
 import { selectGenresStatus } from "../redux/slices/genres";
 import { selectFavStatus, selectMoviesIdsFromUser, selectUserStatus } from "../redux/slices/user";
 
-import { fetchManyMovies, fetchMoviesPage, fetchTheNewestMovies } from "../redux/thunks/moviesThunks";
 import { fetchGenres } from "../redux/thunks/genresThunks";
+import { fetchManyMovies, fetchMoviesPage, fetchTheNewestMovies } from "../redux/thunks/moviesThunks";
 import { AMOUNT_MOVIES_IN_PAGE, NEWEST_MOVIES, STATUS_OPTIONS } from "../globals";
 
 export default function useOnStart() {

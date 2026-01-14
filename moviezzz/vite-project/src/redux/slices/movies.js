@@ -15,7 +15,6 @@ const initialState = moviesAdapter.getInitialState({
 
     newestMovies: [],
     favoritesMovies: [],
-    favoritesMoviesStatus: STATUS_OPTIONS.IDLE,
 });
 
 const moviesSlice = createSlice({
@@ -119,7 +118,6 @@ export const selectMoviesError = (state) => state.movies.error;
 
 export const selectTheNewestMovies = (state) => state.movies.newestMovies
 export const selectFavoritesMovies = (state) => state.movies.favoritesMovies
-export const selectFavoritesMoviesStatus = (state) => state.movies.favoritesMoviesStatus
 
 export const selectMovieById = (id) => (state) => moviesSelectors.selectById(state, id);
 
